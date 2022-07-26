@@ -1,8 +1,29 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { RecoilRoot } from 'recoil'
+import { QueryClientProvider, QueryClient,  } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { useState } from 'react'
+
+const client = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: Infinity,
+    }
+  }
+})
 
 function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  const [queryClient] = useState(() => client)
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
+      <RecoilRoot>
+        <Component {...pageProps} />
+      </RecoilRoot>
+    </QueryClientProvider>
+  )
 }
 
 export default MyApp

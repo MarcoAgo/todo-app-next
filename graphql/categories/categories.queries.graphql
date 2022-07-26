@@ -1,0 +1,20 @@
+query getCategories {
+    categories {
+        data {
+            id
+            attributes {
+                title
+                description
+                todos {
+                    data {
+                        id
+                        attributes {
+                            title
+                            description
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
