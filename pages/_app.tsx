@@ -1,7 +1,7 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { RecoilRoot } from 'recoil'
-import { QueryClientProvider, QueryClient,  } from '@tanstack/react-query'
+import { QueryClientProvider, QueryClient, Hydrate,  } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState } from 'react'
 
@@ -18,10 +18,12 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <ReactQueryDevtools />
-      <RecoilRoot>
-        <Component {...pageProps} />
-      </RecoilRoot>
+      <Hydrate state={pageProps.dehydratedState}>
+        <ReactQueryDevtools />
+        <RecoilRoot>
+          <Component {...pageProps} />
+        </RecoilRoot>
+      </Hydrate>
     </QueryClientProvider>
   )
 }
