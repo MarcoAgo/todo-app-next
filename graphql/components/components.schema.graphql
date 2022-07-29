@@ -1,0 +1,173 @@
+type ComponentAtomButton {
+  id: ID!
+  label: String!
+}
+
+input ComponentAtomImageFiltersInput {
+  and: [ComponentAtomImageFiltersInput]
+  or: [ComponentAtomImageFiltersInput]
+  not: ComponentAtomImageFiltersInput
+}
+
+input ComponentAtomImageInput {
+  id: ID
+  media_image: ID
+}
+
+type ComponentAtomImage {
+  id: ID!
+  media_image: UploadFileEntityResponse!
+}
+
+input ComponentAtomTextFiltersInput {
+  text: StringFilterInput
+  and: [ComponentAtomTextFiltersInput]
+  or: [ComponentAtomTextFiltersInput]
+  not: ComponentAtomTextFiltersInput
+}
+
+input ComponentAtomTextInput {
+  id: ID
+  text: String
+}
+
+type ComponentAtomText {
+  id: ID!
+  text: String!
+}
+
+input ComponentAtomTitleFiltersInput {
+  text: StringFilterInput
+  and: [ComponentAtomTitleFiltersInput]
+  or: [ComponentAtomTitleFiltersInput]
+  not: ComponentAtomTitleFiltersInput
+}
+
+input ComponentAtomTitleInput {
+  id: ID
+  text: String
+}
+
+type ComponentAtomTitle {
+  id: ID!
+  text: String!
+}
+
+input ComponentOrganismsTitleDescriptionImageFiltersInput {
+  title: ComponentAtomTitleFiltersInput
+  description: ComponentAtomTextFiltersInput
+  image: ComponentAtomImageFiltersInput
+  and: [ComponentOrganismsTitleDescriptionImageFiltersInput]
+  or: [ComponentOrganismsTitleDescriptionImageFiltersInput]
+  not: ComponentOrganismsTitleDescriptionImageFiltersInput
+}
+
+input ComponentOrganismsTitleDescriptionImageInput {
+  id: ID
+  title: ComponentAtomTitleInput
+  description: ComponentAtomTextInput
+  image: ComponentAtomImageInput
+}
+
+type ComponentOrganismsTitleDescriptionImage {
+  id: ID!
+  title: ComponentAtomTitle
+  description: ComponentAtomText
+  image: ComponentAtomImage
+}
+
+type ComponentUtilsComponent {
+  id: ID!
+  name: String!
+}
+
+enum ENUM_COMPONENTUTILSCOMPONENTSLIST_COMPONENTSLIST {
+  TitleDescriptionPage
+  Image
+}
+
+type ComponentUtilsComponentsList {
+  id: ID!
+  componentsList: ENUM_COMPONENTUTILSCOMPONENTSLIST_COMPONENTSLIST!
+}
+
+input ComponentUtilsMetaRepeatableComponentFiltersInput {
+  name: StringFilterInput
+  content: StringFilterInput
+  preventingIndex: BooleanFilterInput
+  structuredData: JSONFilterInput
+  and: [ComponentUtilsMetaRepeatableComponentFiltersInput]
+  or: [ComponentUtilsMetaRepeatableComponentFiltersInput]
+  not: ComponentUtilsMetaRepeatableComponentFiltersInput
+}
+
+input ComponentUtilsMetaRepeatableComponentInput {
+  id: ID
+  name: String
+  content: String
+  preventingIndex: Boolean
+  structuredData: JSON
+  metaImage: ID
+}
+
+type ComponentUtilsMetaRepeatableComponent {
+  id: ID!
+  name: String
+  content: String
+  preventingIndex: Boolean
+  structuredData: JSON
+  metaImage: UploadFileEntityResponse
+}
+
+input ComponentUtilsSeoInput {
+  id: ID
+  metaTitle: String
+  metaDescription: String
+}
+
+type ComponentUtilsSeo {
+  id: ID!
+  metaTitle: String
+  metaDescription: String
+}
+
+input ComponentFiltersInput {
+  id: IDFilterInput
+  titleDescriptionImage: ComponentOrganismsTitleDescriptionImageFiltersInput
+  image: ComponentAtomImageFiltersInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  publishedAt: DateTimeFilterInput
+  and: [ComponentFiltersInput]
+  or: [ComponentFiltersInput]
+  not: ComponentFiltersInput
+}
+
+input ComponentInput {
+  titleDescriptionImage: ComponentOrganismsTitleDescriptionImageInput
+  image: ComponentAtomImageInput
+  publishedAt: DateTime
+}
+
+type Component {
+  titleDescriptionImage: ComponentOrganismsTitleDescriptionImage
+  image: ComponentAtomImage
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+}
+
+type ComponentEntity {
+  id: ID
+  attributes: Component
+}
+
+type ComponentEntityResponse {
+  data: ComponentEntity
+}
+
+type ComponentEntityResponseCollection {
+  data: [ComponentEntity!]!
+  meta: ResponseCollectionMeta!
+}
+

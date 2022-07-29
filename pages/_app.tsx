@@ -1,9 +1,10 @@
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
-import { RecoilRoot } from 'recoil'
 import { QueryClientProvider, QueryClient, Hydrate,  } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { useState } from 'react'
+import { Provider } from 'jotai'
+import ErrorBoundary from '../components/error/ErrorBoundary'
 
 const client = new QueryClient({
   defaultOptions: {
@@ -19,10 +20,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
-        <ReactQueryDevtools />
-        <RecoilRoot>
-          <Component {...pageProps} />
-        </RecoilRoot>
+        {pageProps.dehydratedState && (
+          <Provider>
+            <ReactQueryDevtools />
+            <ErrorBoundary error={pageProps.error}>
+              <Component {...pageProps} />
+            </ErrorBoundary>
+          </Provider>
+        )}
       </Hydrate>
     </QueryClientProvider>
   )

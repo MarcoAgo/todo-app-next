@@ -1,0 +1,20 @@
+query nav {
+  menusMenus {
+    data {
+      id
+      attributes {
+        title
+        items {
+          data {
+            attributes {
+              url
+              title
+              target
+              order
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -14,10 +14,10 @@
     "@tanstack/react-query-devtools": "^4.0.10",
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0",
+    "jotai": "^1.7.6",
     "next": "12.2.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "recoil": "^0.7.4"
+    "react-dom": "18.2.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.9.1",

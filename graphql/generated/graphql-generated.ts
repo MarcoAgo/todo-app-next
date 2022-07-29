@@ -22,6 +22,54 @@ export type Scalars = {
   Upload: any;
 };
 
+export type App = {
+  __typename?: 'App';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  startButton?: Maybe<ComponentAtomButton>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AppEntity = {
+  __typename?: 'AppEntity';
+  attributes?: Maybe<App>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type AppEntityResponse = {
+  __typename?: 'AppEntityResponse';
+  data?: Maybe<AppEntity>;
+};
+
+export type AppInput = {
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  startButton?: InputMaybe<ComponentAtomButtonInput>;
+};
+
+export type AppTodo = {
+  __typename?: 'AppTodo';
+  Intro?: Maybe<ComponentOrganismsTitleDescriptionImage>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type AppTodoEntity = {
+  __typename?: 'AppTodoEntity';
+  attributes?: Maybe<AppTodo>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type AppTodoEntityResponse = {
+  __typename?: 'AppTodoEntityResponse';
+  data?: Maybe<AppTodoEntity>;
+};
+
+export type AppTodoInput = {
+  Intro?: InputMaybe<ComponentOrganismsTitleDescriptionImageInput>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
 export type BooleanFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['Boolean']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['Boolean']>>>;
@@ -105,6 +153,192 @@ export type CategoryRelationResponseCollection = {
   data: Array<CategoryEntity>;
 };
 
+export type Component = {
+  __typename?: 'Component';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  image?: Maybe<ComponentAtomImage>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  titleDescriptionImage?: Maybe<ComponentOrganismsTitleDescriptionImage>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ComponentAtomButton = {
+  __typename?: 'ComponentAtomButton';
+  id: Scalars['ID'];
+  label: Scalars['String'];
+};
+
+export type ComponentAtomButtonInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  label?: InputMaybe<Scalars['String']>;
+};
+
+export type ComponentAtomImage = {
+  __typename?: 'ComponentAtomImage';
+  id: Scalars['ID'];
+  media_image: UploadFileEntityResponse;
+};
+
+export type ComponentAtomImageFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentAtomImageFiltersInput>>>;
+  not?: InputMaybe<ComponentAtomImageFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentAtomImageFiltersInput>>>;
+};
+
+export type ComponentAtomImageInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  media_image?: InputMaybe<Scalars['ID']>;
+};
+
+export type ComponentAtomText = {
+  __typename?: 'ComponentAtomText';
+  id: Scalars['ID'];
+  text: Scalars['String'];
+};
+
+export type ComponentAtomTextFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentAtomTextFiltersInput>>>;
+  not?: InputMaybe<ComponentAtomTextFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentAtomTextFiltersInput>>>;
+  text?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentAtomTextInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  text?: InputMaybe<Scalars['String']>;
+};
+
+export type ComponentAtomTitle = {
+  __typename?: 'ComponentAtomTitle';
+  id: Scalars['ID'];
+  text: Scalars['String'];
+};
+
+export type ComponentAtomTitleFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentAtomTitleFiltersInput>>>;
+  not?: InputMaybe<ComponentAtomTitleFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentAtomTitleFiltersInput>>>;
+  text?: InputMaybe<StringFilterInput>;
+};
+
+export type ComponentAtomTitleInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  text?: InputMaybe<Scalars['String']>;
+};
+
+export type ComponentEntity = {
+  __typename?: 'ComponentEntity';
+  attributes?: Maybe<Component>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type ComponentEntityResponse = {
+  __typename?: 'ComponentEntityResponse';
+  data?: Maybe<ComponentEntity>;
+};
+
+export type ComponentEntityResponseCollection = {
+  __typename?: 'ComponentEntityResponseCollection';
+  data: Array<ComponentEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type ComponentFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  image?: InputMaybe<ComponentAtomImageFiltersInput>;
+  not?: InputMaybe<ComponentFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentFiltersInput>>>;
+  publishedAt?: InputMaybe<DateTimeFilterInput>;
+  titleDescriptionImage?: InputMaybe<ComponentOrganismsTitleDescriptionImageFiltersInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type ComponentInput = {
+  image?: InputMaybe<ComponentAtomImageInput>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  titleDescriptionImage?: InputMaybe<ComponentOrganismsTitleDescriptionImageInput>;
+};
+
+export type ComponentOrganismsTitleDescriptionImage = {
+  __typename?: 'ComponentOrganismsTitleDescriptionImage';
+  description?: Maybe<ComponentAtomText>;
+  id: Scalars['ID'];
+  image?: Maybe<ComponentAtomImage>;
+  title?: Maybe<ComponentAtomTitle>;
+};
+
+export type ComponentOrganismsTitleDescriptionImageFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentOrganismsTitleDescriptionImageFiltersInput>>>;
+  description?: InputMaybe<ComponentAtomTextFiltersInput>;
+  image?: InputMaybe<ComponentAtomImageFiltersInput>;
+  not?: InputMaybe<ComponentOrganismsTitleDescriptionImageFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentOrganismsTitleDescriptionImageFiltersInput>>>;
+  title?: InputMaybe<ComponentAtomTitleFiltersInput>;
+};
+
+export type ComponentOrganismsTitleDescriptionImageInput = {
+  description?: InputMaybe<ComponentAtomTextInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  image?: InputMaybe<ComponentAtomImageInput>;
+  title?: InputMaybe<ComponentAtomTitleInput>;
+};
+
+export type ComponentUtilsComponent = {
+  __typename?: 'ComponentUtilsComponent';
+  id: Scalars['ID'];
+  name: Scalars['String'];
+};
+
+export type ComponentUtilsComponentsList = {
+  __typename?: 'ComponentUtilsComponentsList';
+  componentsList: Enum_Componentutilscomponentslist_Componentslist;
+  id: Scalars['ID'];
+};
+
+export type ComponentUtilsMetaRepeatableComponent = {
+  __typename?: 'ComponentUtilsMetaRepeatableComponent';
+  content?: Maybe<Scalars['String']>;
+  id: Scalars['ID'];
+  metaImage?: Maybe<UploadFileEntityResponse>;
+  name?: Maybe<Scalars['String']>;
+  preventingIndex?: Maybe<Scalars['Boolean']>;
+  structuredData?: Maybe<Scalars['JSON']>;
+};
+
+export type ComponentUtilsMetaRepeatableComponentFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentUtilsMetaRepeatableComponentFiltersInput>>>;
+  content?: InputMaybe<StringFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentUtilsMetaRepeatableComponentFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentUtilsMetaRepeatableComponentFiltersInput>>>;
+  preventingIndex?: InputMaybe<BooleanFilterInput>;
+  structuredData?: InputMaybe<JsonFilterInput>;
+};
+
+export type ComponentUtilsMetaRepeatableComponentInput = {
+  content?: InputMaybe<Scalars['String']>;
+  id?: InputMaybe<Scalars['ID']>;
+  metaImage?: InputMaybe<Scalars['ID']>;
+  name?: InputMaybe<Scalars['String']>;
+  preventingIndex?: InputMaybe<Scalars['Boolean']>;
+  structuredData?: InputMaybe<Scalars['JSON']>;
+};
+
+export type ComponentUtilsSeo = {
+  __typename?: 'ComponentUtilsSeo';
+  id: Scalars['ID'];
+  metaDescription?: Maybe<Scalars['String']>;
+  metaTitle?: Maybe<Scalars['String']>;
+};
+
+export type ComponentUtilsSeoInput = {
+  id?: InputMaybe<Scalars['ID']>;
+  metaDescription?: InputMaybe<Scalars['String']>;
+  metaTitle?: InputMaybe<Scalars['String']>;
+};
+
 export type DateTimeFilterInput = {
   and?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   between?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
@@ -127,6 +361,18 @@ export type DateTimeFilterInput = {
   or?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
   startsWith?: InputMaybe<Scalars['DateTime']>;
 };
+
+export enum Enum_Componentutilscomponentslist_Componentslist {
+  Image = 'Image',
+  TitleDescriptionPage = 'TitleDescriptionPage'
+}
+
+export enum Enum_Menusmenuitem_Target {
+  Blank = 'blank',
+  Parent = 'parent',
+  Self = 'self',
+  Top = 'top'
+}
 
 export type FileInfoInput = {
   alternativeText?: InputMaybe<Scalars['String']>;
@@ -157,7 +403,42 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = Category | I18NLocale | Test | Todo | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+export type GenericMorph = App | AppTodo | Category | ComponentAtomButton | ComponentAtomImage | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsTitleDescriptionImage | ComponentUtilsComponent | ComponentUtilsComponentsList | ComponentUtilsMetaRepeatableComponent | ComponentUtilsSeo | Homepage | I18NLocale | MenusMenu | MenusMenuItem | Todo | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser;
+
+export type Homepage = {
+  __typename?: 'Homepage';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  meta?: Maybe<Array<Maybe<ComponentUtilsMetaRepeatableComponent>>>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  seo?: Maybe<ComponentUtilsSeo>;
+  titleDescriptionImage?: Maybe<ComponentOrganismsTitleDescriptionImage>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type HomepageMetaArgs = {
+  filters?: InputMaybe<ComponentUtilsMetaRepeatableComponentFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type HomepageEntity = {
+  __typename?: 'HomepageEntity';
+  attributes?: Maybe<Homepage>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type HomepageEntityResponse = {
+  __typename?: 'HomepageEntityResponse';
+  data?: Maybe<HomepageEntity>;
+};
+
+export type HomepageInput = {
+  meta?: InputMaybe<Array<InputMaybe<ComponentUtilsMetaRepeatableComponentInput>>>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+  seo?: InputMaybe<ComponentUtilsSeoInput>;
+  titleDescriptionImage?: InputMaybe<ComponentOrganismsTitleDescriptionImageInput>;
+};
 
 export type I18NLocale = {
   __typename?: 'I18NLocale';
@@ -264,16 +545,130 @@ export type JsonFilterInput = {
   startsWith?: InputMaybe<Scalars['JSON']>;
 };
 
+export type MenusMenu = {
+  __typename?: 'MenusMenu';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  items?: Maybe<MenusMenuItemRelationResponseCollection>;
+  slug: Scalars['String'];
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type MenusMenuItemsArgs = {
+  filters?: InputMaybe<MenusMenuItemFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+export type MenusMenuEntity = {
+  __typename?: 'MenusMenuEntity';
+  attributes?: Maybe<MenusMenu>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type MenusMenuEntityResponse = {
+  __typename?: 'MenusMenuEntityResponse';
+  data?: Maybe<MenusMenuEntity>;
+};
+
+export type MenusMenuEntityResponseCollection = {
+  __typename?: 'MenusMenuEntityResponseCollection';
+  data: Array<MenusMenuEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MenusMenuFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<MenusMenuFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  items?: InputMaybe<MenusMenuItemFiltersInput>;
+  not?: InputMaybe<MenusMenuFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MenusMenuFiltersInput>>>;
+  slug?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+};
+
+export type MenusMenuInput = {
+  items?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
+  slug?: InputMaybe<Scalars['String']>;
+  title?: InputMaybe<Scalars['String']>;
+};
+
+export type MenusMenuItem = {
+  __typename?: 'MenusMenuItem';
+  createdAt?: Maybe<Scalars['DateTime']>;
+  order?: Maybe<Scalars['Int']>;
+  parent?: Maybe<MenusMenuItemEntityResponse>;
+  root_menu: MenusMenuEntityResponse;
+  target?: Maybe<Enum_Menusmenuitem_Target>;
+  title: Scalars['String'];
+  updatedAt?: Maybe<Scalars['DateTime']>;
+  url?: Maybe<Scalars['String']>;
+};
+
+export type MenusMenuItemEntity = {
+  __typename?: 'MenusMenuItemEntity';
+  attributes?: Maybe<MenusMenuItem>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type MenusMenuItemEntityResponse = {
+  __typename?: 'MenusMenuItemEntityResponse';
+  data?: Maybe<MenusMenuItemEntity>;
+};
+
+export type MenusMenuItemEntityResponseCollection = {
+  __typename?: 'MenusMenuItemEntityResponseCollection';
+  data: Array<MenusMenuItemEntity>;
+  meta: ResponseCollectionMeta;
+};
+
+export type MenusMenuItemFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<MenusMenuItemFiltersInput>>>;
+  createdAt?: InputMaybe<DateTimeFilterInput>;
+  id?: InputMaybe<IdFilterInput>;
+  not?: InputMaybe<MenusMenuItemFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<MenusMenuItemFiltersInput>>>;
+  order?: InputMaybe<IntFilterInput>;
+  parent?: InputMaybe<MenusMenuItemFiltersInput>;
+  root_menu?: InputMaybe<MenusMenuFiltersInput>;
+  target?: InputMaybe<StringFilterInput>;
+  title?: InputMaybe<StringFilterInput>;
+  updatedAt?: InputMaybe<DateTimeFilterInput>;
+  url?: InputMaybe<StringFilterInput>;
+};
+
+export type MenusMenuItemInput = {
+  order?: InputMaybe<Scalars['Int']>;
+  parent?: InputMaybe<Scalars['ID']>;
+  root_menu?: InputMaybe<Scalars['ID']>;
+  target?: InputMaybe<Enum_Menusmenuitem_Target>;
+  title?: InputMaybe<Scalars['String']>;
+  url?: InputMaybe<Scalars['String']>;
+};
+
+export type MenusMenuItemRelationResponseCollection = {
+  __typename?: 'MenusMenuItemRelationResponseCollection';
+  data: Array<MenusMenuItemEntity>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
   createCategory?: Maybe<CategoryEntityResponse>;
-  createTest?: Maybe<TestEntityResponse>;
+  createMenusMenu?: Maybe<MenusMenuEntityResponse>;
+  createMenusMenuItem?: Maybe<MenusMenuItemEntityResponse>;
   createTodo?: Maybe<TodoEntityResponse>;
   createUploadFile?: Maybe<UploadFileEntityResponse>;
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
+  deleteApp?: Maybe<AppEntityResponse>;
+  deleteAppTodo?: Maybe<AppTodoEntityResponse>;
   deleteCategory?: Maybe<CategoryEntityResponse>;
-  deleteTest?: Maybe<TestEntityResponse>;
+  deleteHomepage?: Maybe<HomepageEntityResponse>;
+  deleteMenusMenu?: Maybe<MenusMenuEntityResponse>;
+  deleteMenusMenuItem?: Maybe<MenusMenuItemEntityResponse>;
   deleteTodo?: Maybe<TodoEntityResponse>;
   deleteUploadFile?: Maybe<UploadFileEntityResponse>;
   deleteUsersPermissionsRole?: Maybe<UsersPermissionsDeleteRolePayload>;
@@ -285,9 +680,13 @@ export type Mutation = {
   register: UsersPermissionsLoginPayload;
   removeFile?: Maybe<UploadFileEntityResponse>;
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
+  updateApp?: Maybe<AppEntityResponse>;
+  updateAppTodo?: Maybe<AppTodoEntityResponse>;
   updateCategory?: Maybe<CategoryEntityResponse>;
   updateFileInfo: UploadFileEntityResponse;
-  updateTest?: Maybe<TestEntityResponse>;
+  updateHomepage?: Maybe<HomepageEntityResponse>;
+  updateMenusMenu?: Maybe<MenusMenuEntityResponse>;
+  updateMenusMenuItem?: Maybe<MenusMenuItemEntityResponse>;
   updateTodo?: Maybe<TodoEntityResponse>;
   updateUploadFile?: Maybe<UploadFileEntityResponse>;
   updateUsersPermissionsRole?: Maybe<UsersPermissionsUpdateRolePayload>;
@@ -301,8 +700,13 @@ export type MutationCreateCategoryArgs = {
 };
 
 
-export type MutationCreateTestArgs = {
-  data: TestInput;
+export type MutationCreateMenusMenuArgs = {
+  data: MenusMenuInput;
+};
+
+
+export type MutationCreateMenusMenuItemArgs = {
+  data: MenusMenuItemInput;
 };
 
 
@@ -331,7 +735,12 @@ export type MutationDeleteCategoryArgs = {
 };
 
 
-export type MutationDeleteTestArgs = {
+export type MutationDeleteMenusMenuArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type MutationDeleteMenusMenuItemArgs = {
   id: Scalars['ID'];
 };
 
@@ -396,6 +805,16 @@ export type MutationResetPasswordArgs = {
 };
 
 
+export type MutationUpdateAppArgs = {
+  data: AppInput;
+};
+
+
+export type MutationUpdateAppTodoArgs = {
+  data: AppTodoInput;
+};
+
+
 export type MutationUpdateCategoryArgs = {
   data: CategoryInput;
   id: Scalars['ID'];
@@ -408,8 +827,19 @@ export type MutationUpdateFileInfoArgs = {
 };
 
 
-export type MutationUpdateTestArgs = {
-  data: TestInput;
+export type MutationUpdateHomepageArgs = {
+  data: HomepageInput;
+};
+
+
+export type MutationUpdateMenusMenuArgs = {
+  data: MenusMenuInput;
+  id: Scalars['ID'];
+};
+
+
+export type MutationUpdateMenusMenuItemArgs = {
+  data: MenusMenuItemInput;
   id: Scalars['ID'];
 };
 
@@ -468,13 +898,18 @@ export enum PublicationState {
 
 export type Query = {
   __typename?: 'Query';
+  app?: Maybe<AppEntityResponse>;
+  appTodo?: Maybe<AppTodoEntityResponse>;
   categories?: Maybe<CategoryEntityResponseCollection>;
   category?: Maybe<CategoryEntityResponse>;
+  homepage?: Maybe<HomepageEntityResponse>;
   i18NLocale?: Maybe<I18NLocaleEntityResponse>;
   i18NLocales?: Maybe<I18NLocaleEntityResponseCollection>;
   me?: Maybe<UsersPermissionsMe>;
-  test?: Maybe<TestEntityResponse>;
-  tests?: Maybe<TestEntityResponseCollection>;
+  menusMenu?: Maybe<MenusMenuEntityResponse>;
+  menusMenuItem?: Maybe<MenusMenuItemEntityResponse>;
+  menusMenuItems?: Maybe<MenusMenuItemEntityResponseCollection>;
+  menusMenus?: Maybe<MenusMenuEntityResponseCollection>;
   todo?: Maybe<TodoEntityResponse>;
   todos?: Maybe<TodoEntityResponseCollection>;
   uploadFile?: Maybe<UploadFileEntityResponse>;
@@ -483,6 +918,16 @@ export type Query = {
   usersPermissionsRoles?: Maybe<UsersPermissionsRoleEntityResponseCollection>;
   usersPermissionsUser?: Maybe<UsersPermissionsUserEntityResponse>;
   usersPermissionsUsers?: Maybe<UsersPermissionsUserEntityResponseCollection>;
+};
+
+
+export type QueryAppArgs = {
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+
+export type QueryAppTodoArgs = {
+  publicationState?: InputMaybe<PublicationState>;
 };
 
 
@@ -499,6 +944,11 @@ export type QueryCategoryArgs = {
 };
 
 
+export type QueryHomepageArgs = {
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+
 export type QueryI18NLocaleArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
@@ -511,15 +961,26 @@ export type QueryI18NLocalesArgs = {
 };
 
 
-export type QueryTestArgs = {
+export type QueryMenusMenuArgs = {
   id?: InputMaybe<Scalars['ID']>;
 };
 
 
-export type QueryTestsArgs = {
-  filters?: InputMaybe<TestFiltersInput>;
+export type QueryMenusMenuItemArgs = {
+  id?: InputMaybe<Scalars['ID']>;
+};
+
+
+export type QueryMenusMenuItemsArgs = {
+  filters?: InputMaybe<MenusMenuItemFiltersInput>;
   pagination?: InputMaybe<PaginationArg>;
-  publicationState?: InputMaybe<PublicationState>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
+
+export type QueryMenusMenusArgs = {
+  filters?: InputMaybe<MenusMenuFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
   sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
 };
 
@@ -598,47 +1059,6 @@ export type StringFilterInput = {
   null?: InputMaybe<Scalars['Boolean']>;
   or?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
   startsWith?: InputMaybe<Scalars['String']>;
-};
-
-export type Test = {
-  __typename?: 'Test';
-  createdAt?: Maybe<Scalars['DateTime']>;
-  name?: Maybe<Scalars['String']>;
-  publishedAt?: Maybe<Scalars['DateTime']>;
-  updatedAt?: Maybe<Scalars['DateTime']>;
-};
-
-export type TestEntity = {
-  __typename?: 'TestEntity';
-  attributes?: Maybe<Test>;
-  id?: Maybe<Scalars['ID']>;
-};
-
-export type TestEntityResponse = {
-  __typename?: 'TestEntityResponse';
-  data?: Maybe<TestEntity>;
-};
-
-export type TestEntityResponseCollection = {
-  __typename?: 'TestEntityResponseCollection';
-  data: Array<TestEntity>;
-  meta: ResponseCollectionMeta;
-};
-
-export type TestFiltersInput = {
-  and?: InputMaybe<Array<InputMaybe<TestFiltersInput>>>;
-  createdAt?: InputMaybe<DateTimeFilterInput>;
-  id?: InputMaybe<IdFilterInput>;
-  name?: InputMaybe<StringFilterInput>;
-  not?: InputMaybe<TestFiltersInput>;
-  or?: InputMaybe<Array<InputMaybe<TestFiltersInput>>>;
-  publishedAt?: InputMaybe<DateTimeFilterInput>;
-  updatedAt?: InputMaybe<DateTimeFilterInput>;
-};
-
-export type TestInput = {
-  name?: InputMaybe<Scalars['String']>;
-  publishedAt?: InputMaybe<Scalars['DateTime']>;
 };
 
 export type Todo = {
@@ -998,7 +1418,49 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryEntityResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null, attributes?: { __typename?: 'Category', title: string, description?: string | null, todos?: { __typename?: 'TodoRelationResponseCollection', data: Array<{ __typename?: 'TodoEntity', id?: string | null, attributes?: { __typename?: 'Todo', title: string, description?: string | null } | null }> } | null } | null }> } | null };
 
+export type AppQueryVariables = Exact<{ [key: string]: never; }>;
 
+
+export type AppQuery = { __typename?: 'Query', app?: { __typename?: 'AppEntityResponse', data?: { __typename?: 'AppEntity', id?: string | null, attributes?: { __typename?: 'App', startButton?: { __typename?: 'ComponentAtomButton', label: string } | null } | null } | null } | null };
+
+export type AppTodoQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AppTodoQuery = { __typename?: 'Query', appTodo?: { __typename?: 'AppTodoEntityResponse', data?: { __typename?: 'AppTodoEntity', id?: string | null, attributes?: { __typename?: 'AppTodo', Intro?: { __typename?: 'ComponentOrganismsTitleDescriptionImage', title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null } | null } | null } | null } | null };
+
+export type TitleDescriptionImageFragment = { __typename?: 'Homepage', titleDescriptionImage?: { __typename?: 'ComponentOrganismsTitleDescriptionImage', title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, image?: { __typename?: 'ComponentAtomImage', media_image: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string } | null } | null } } | null } | null };
+
+export type HomepageQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type HomepageQuery = { __typename?: 'Query', homepage?: { __typename?: 'HomepageEntityResponse', data?: { __typename?: 'HomepageEntity', id?: string | null, attributes?: { __typename?: 'Homepage', seo?: { __typename?: 'ComponentUtilsSeo', metaTitle?: string | null, metaDescription?: string | null } | null, titleDescriptionImage?: { __typename?: 'ComponentOrganismsTitleDescriptionImage', title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, image?: { __typename?: 'ComponentAtomImage', media_image: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string } | null } | null } } | null } | null } | null } | null } | null };
+
+export type NavQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type NavQuery = { __typename?: 'Query', menusMenus?: { __typename?: 'MenusMenuEntityResponseCollection', data: Array<{ __typename?: 'MenusMenuEntity', id?: string | null, attributes?: { __typename?: 'MenusMenu', title: string, items?: { __typename?: 'MenusMenuItemRelationResponseCollection', data: Array<{ __typename?: 'MenusMenuItemEntity', attributes?: { __typename?: 'MenusMenuItem', url?: string | null, title: string, target?: Enum_Menusmenuitem_Target | null, order?: number | null } | null }> } | null } | null }> } | null };
+
+export const TitleDescriptionImageFragmentDoc = `
+    fragment titleDescriptionImage on Homepage {
+  titleDescriptionImage {
+    title {
+      text
+    }
+    description {
+      text
+    }
+    image {
+      media_image {
+        data {
+          attributes {
+            url
+          }
+        }
+      }
+    }
+  }
+}
+    `;
 export const GetCategoriesDocument = `
     query getCategories {
   categories {
@@ -1033,5 +1495,132 @@ export const useGetCategoriesQuery = <
     useQuery<GetCategoriesQuery, TError, TData>(
       variables === undefined ? ['getCategories'] : ['getCategories', variables],
       fetcher<GetCategoriesQuery, GetCategoriesQueryVariables>(client, GetCategoriesDocument, variables, headers),
+      options
+    );
+export const AppDocument = `
+    query app {
+  app {
+    data {
+      id
+      attributes {
+        startButton {
+          label
+        }
+      }
+    }
+  }
+}
+    `;
+export const useAppQuery = <
+      TData = AppQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: AppQueryVariables,
+      options?: UseQueryOptions<AppQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<AppQuery, TError, TData>(
+      variables === undefined ? ['app'] : ['app', variables],
+      fetcher<AppQuery, AppQueryVariables>(client, AppDocument, variables, headers),
+      options
+    );
+export const AppTodoDocument = `
+    query appTodo {
+  appTodo {
+    data {
+      id
+      attributes {
+        Intro {
+          title {
+            text
+          }
+          description {
+            text
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export const useAppTodoQuery = <
+      TData = AppTodoQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: AppTodoQueryVariables,
+      options?: UseQueryOptions<AppTodoQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<AppTodoQuery, TError, TData>(
+      variables === undefined ? ['appTodo'] : ['appTodo', variables],
+      fetcher<AppTodoQuery, AppTodoQueryVariables>(client, AppTodoDocument, variables, headers),
+      options
+    );
+export const HomepageDocument = `
+    query homepage {
+  homepage {
+    data {
+      id
+      attributes {
+        seo {
+          metaTitle
+          metaDescription
+        }
+        ...titleDescriptionImage
+      }
+    }
+  }
+}
+    ${TitleDescriptionImageFragmentDoc}`;
+export const useHomepageQuery = <
+      TData = HomepageQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: HomepageQueryVariables,
+      options?: UseQueryOptions<HomepageQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<HomepageQuery, TError, TData>(
+      variables === undefined ? ['homepage'] : ['homepage', variables],
+      fetcher<HomepageQuery, HomepageQueryVariables>(client, HomepageDocument, variables, headers),
+      options
+    );
+export const NavDocument = `
+    query nav {
+  menusMenus {
+    data {
+      id
+      attributes {
+        title
+        items {
+          data {
+            attributes {
+              url
+              title
+              target
+              order
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
+export const useNavQuery = <
+      TData = NavQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: NavQueryVariables,
+      options?: UseQueryOptions<NavQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<NavQuery, TError, TData>(
+      variables === undefined ? ['nav'] : ['nav', variables],
+      fetcher<NavQuery, NavQueryVariables>(client, NavDocument, variables, headers),
       options
     );

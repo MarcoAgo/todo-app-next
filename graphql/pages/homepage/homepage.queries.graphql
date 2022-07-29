@@ -1,0 +1,34 @@
+fragment titleDescriptionImage on Homepage  {
+  titleDescriptionImage {
+    title {
+      text
+    }
+    description {
+      text
+    }
+    image {
+      media_image {
+        data {
+          attributes {
+            url
+          }
+        }
+      }
+    }
+  }
+}
+
+query homepage {
+  homepage {
+    data {
+      id
+      attributes {
+        seo {
+          metaTitle
+          metaDescription
+        }
+        ...titleDescriptionImage
+      }
+    }
+  }
+}

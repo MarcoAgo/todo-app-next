@@ -1,0 +1,12 @@
+query app {
+  app {
+    data {
+      id
+      attributes {
+        startButton {
+          label
+        }
+      }
+    }
+  }
+}

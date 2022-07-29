@@ -184,6 +184,115 @@ input JSONFilterInput {
   between: [JSON]
 }
 
+input ComponentAtomButtonInput {
+  id: ID
+  label: String
+}
+
+type ComponentAtomButton {
+  id: ID!
+  label: String!
+}
+
+input ComponentAtomImageInput {
+  id: ID
+  media_image: ID
+}
+
+type ComponentAtomImage {
+  id: ID!
+  media_image: UploadFileEntityResponse!
+}
+
+input ComponentAtomTextInput {
+  id: ID
+  text: String
+}
+
+type ComponentAtomText {
+  id: ID!
+  text: String!
+}
+
+input ComponentAtomTitleInput {
+  id: ID
+  text: String
+}
+
+type ComponentAtomTitle {
+  id: ID!
+  text: String!
+}
+
+input ComponentOrganismsTitleDescriptionImageInput {
+  id: ID
+  title: ComponentAtomTitleInput
+  description: ComponentAtomTextInput
+  image: ComponentAtomImageInput
+}
+
+type ComponentOrganismsTitleDescriptionImage {
+  id: ID!
+  title: ComponentAtomTitle
+  description: ComponentAtomText
+  image: ComponentAtomImage
+}
+
+type ComponentUtilsComponent {
+  id: ID!
+  name: String!
+}
+
+enum ENUM_COMPONENTUTILSCOMPONENTSLIST_COMPONENTSLIST {
+  TitleDescriptionPage
+  Image
+}
+
+type ComponentUtilsComponentsList {
+  id: ID!
+  componentsList: ENUM_COMPONENTUTILSCOMPONENTSLIST_COMPONENTSLIST!
+}
+
+input ComponentUtilsMetaRepeatableComponentFiltersInput {
+  name: StringFilterInput
+  content: StringFilterInput
+  preventingIndex: BooleanFilterInput
+  structuredData: JSONFilterInput
+  and: [ComponentUtilsMetaRepeatableComponentFiltersInput]
+  or: [ComponentUtilsMetaRepeatableComponentFiltersInput]
+  not: ComponentUtilsMetaRepeatableComponentFiltersInput
+}
+
+input ComponentUtilsMetaRepeatableComponentInput {
+  id: ID
+  name: String
+  content: String
+  preventingIndex: Boolean
+  structuredData: JSON
+  metaImage: ID
+}
+
+type ComponentUtilsMetaRepeatableComponent {
+  id: ID!
+  name: String
+  content: String
+  preventingIndex: Boolean
+  structuredData: JSON
+  metaImage: UploadFileEntityResponse
+}
+
+input ComponentUtilsSeoInput {
+  id: ID
+  metaTitle: String
+  metaDescription: String
+}
+
+type ComponentUtilsSeo {
+  id: ID!
+  metaTitle: String
+  metaDescription: String
+}
+
 input UploadFileFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
@@ -430,6 +539,152 @@ type UsersPermissionsUserRelationResponseCollection {
   data: [UsersPermissionsUserEntity!]!
 }
 
+input MenusMenuFiltersInput {
+  id: IDFilterInput
+  title: StringFilterInput
+  slug: StringFilterInput
+  items: MenusMenuItemFiltersInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  and: [MenusMenuFiltersInput]
+  or: [MenusMenuFiltersInput]
+  not: MenusMenuFiltersInput
+}
+
+input MenusMenuInput {
+  title: String
+  slug: String
+  items: [ID]
+}
+
+type MenusMenu {
+  title: String!
+  slug: String!
+  items(
+    filters: MenusMenuItemFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MenusMenuItemRelationResponseCollection
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MenusMenuEntity {
+  id: ID
+  attributes: MenusMenu
+}
+
+type MenusMenuEntityResponse {
+  data: MenusMenuEntity
+}
+
+type MenusMenuEntityResponseCollection {
+  data: [MenusMenuEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+enum ENUM_MENUSMENUITEM_TARGET {
+  blank
+  parent
+  self
+  top
+}
+
+input MenusMenuItemFiltersInput {
+  id: IDFilterInput
+  order: IntFilterInput
+  title: StringFilterInput
+  url: StringFilterInput
+  target: StringFilterInput
+  root_menu: MenusMenuFiltersInput
+  parent: MenusMenuItemFiltersInput
+  createdAt: DateTimeFilterInput
+  updatedAt: DateTimeFilterInput
+  and: [MenusMenuItemFiltersInput]
+  or: [MenusMenuItemFiltersInput]
+  not: MenusMenuItemFiltersInput
+}
+
+input MenusMenuItemInput {
+  order: Int
+  title: String
+  url: String
+  target: ENUM_MENUSMENUITEM_TARGET
+  root_menu: ID
+  parent: ID
+}
+
+type MenusMenuItem {
+  order: Int
+  title: String!
+  url: String
+  target: ENUM_MENUSMENUITEM_TARGET
+  root_menu: MenusMenuEntityResponse!
+  parent: MenusMenuItemEntityResponse
+  createdAt: DateTime
+  updatedAt: DateTime
+}
+
+type MenusMenuItemEntity {
+  id: ID
+  attributes: MenusMenuItem
+}
+
+type MenusMenuItemEntityResponse {
+  data: MenusMenuItemEntity
+}
+
+type MenusMenuItemEntityResponseCollection {
+  data: [MenusMenuItemEntity!]!
+  meta: ResponseCollectionMeta!
+}
+
+type MenusMenuItemRelationResponseCollection {
+  data: [MenusMenuItemEntity!]!
+}
+
+input AppInput {
+  startButton: ComponentAtomButtonInput
+  publishedAt: DateTime
+}
+
+type App {
+  startButton: ComponentAtomButton
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+}
+
+type AppEntity {
+  id: ID
+  attributes: App
+}
+
+type AppEntityResponse {
+  data: AppEntity
+}
+
+input AppTodoInput {
+  Intro: ComponentOrganismsTitleDescriptionImageInput
+  publishedAt: DateTime
+}
+
+type AppTodo {
+  Intro: ComponentOrganismsTitleDescriptionImage
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+}
+
+type AppTodoEntity {
+  id: ID
+  attributes: AppTodo
+}
+
+type AppTodoEntityResponse {
+  data: AppTodoEntity
+}
+
 input CategoryFiltersInput {
   id: IDFilterInput
   title: StringFilterInput
@@ -482,41 +737,33 @@ type CategoryRelationResponseCollection {
   data: [CategoryEntity!]!
 }
 
-input TestFiltersInput {
-  id: IDFilterInput
-  name: StringFilterInput
-  createdAt: DateTimeFilterInput
-  updatedAt: DateTimeFilterInput
-  publishedAt: DateTimeFilterInput
-  and: [TestFiltersInput]
-  or: [TestFiltersInput]
-  not: TestFiltersInput
-}
-
-input TestInput {
-  name: String
+input HomepageInput {
+  seo: ComponentUtilsSeoInput
+  meta: [ComponentUtilsMetaRepeatableComponentInput]
+  titleDescriptionImage: ComponentOrganismsTitleDescriptionImageInput
   publishedAt: DateTime
 }
 
-type Test {
-  name: String
+type Homepage {
+  seo: ComponentUtilsSeo
+  meta(
+    filters: ComponentUtilsMetaRepeatableComponentFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentUtilsMetaRepeatableComponent]
+  titleDescriptionImage: ComponentOrganismsTitleDescriptionImage
   createdAt: DateTime
   updatedAt: DateTime
   publishedAt: DateTime
 }
 
-type TestEntity {
+type HomepageEntity {
   id: ID
-  attributes: Test
+  attributes: Homepage
 }
 
-type TestEntityResponse {
-  data: TestEntity
-}
-
-type TestEntityResponseCollection {
-  data: [TestEntity!]!
-  meta: ResponseCollectionMeta!
+type HomepageEntityResponse {
+  data: HomepageEntity
 }
 
 input TodoFiltersInput {
@@ -572,13 +819,26 @@ type TodoRelationResponseCollection {
 }
 
 union GenericMorph =
-    UploadFile
+    ComponentAtomButton
+  | ComponentAtomImage
+  | ComponentAtomText
+  | ComponentAtomTitle
+  | ComponentOrganismsTitleDescriptionImage
+  | ComponentUtilsComponent
+  | ComponentUtilsComponentsList
+  | ComponentUtilsMetaRepeatableComponent
+  | ComponentUtilsSeo
+  | UploadFile
   | I18NLocale
   | UsersPermissionsPermission
   | UsersPermissionsRole
   | UsersPermissionsUser
+  | MenusMenu
+  | MenusMenuItem
+  | App
+  | AppTodo
   | Category
-  | Test
+  | Homepage
   | Todo
 
 input FileInfoInput {
@@ -668,6 +928,20 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): UsersPermissionsUserEntityResponseCollection
+  menusMenu(id: ID): MenusMenuEntityResponse
+  menusMenus(
+    filters: MenusMenuFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MenusMenuEntityResponseCollection
+  menusMenuItem(id: ID): MenusMenuItemEntityResponse
+  menusMenuItems(
+    filters: MenusMenuItemFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): MenusMenuItemEntityResponseCollection
+  app(publicationState: PublicationState = LIVE): AppEntityResponse
+  appTodo(publicationState: PublicationState = LIVE): AppTodoEntityResponse
   category(id: ID): CategoryEntityResponse
   categories(
     filters: CategoryFiltersInput
@@ -675,13 +949,7 @@ type Query {
     sort: [String] = []
     publicationState: PublicationState = LIVE
   ): CategoryEntityResponseCollection
-  test(id: ID): TestEntityResponse
-  tests(
-    filters: TestFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-    publicationState: PublicationState = LIVE
-  ): TestEntityResponseCollection
+  homepage(publicationState: PublicationState = LIVE): HomepageEntityResponse
   todo(id: ID): TodoEntityResponse
   todos(
     filters: TodoFiltersInput
@@ -696,12 +964,24 @@ type Mutation {
   createUploadFile(data: UploadFileInput!): UploadFileEntityResponse
   updateUploadFile(id: ID!, data: UploadFileInput!): UploadFileEntityResponse
   deleteUploadFile(id: ID!): UploadFileEntityResponse
+  createMenusMenu(data: MenusMenuInput!): MenusMenuEntityResponse
+  updateMenusMenu(id: ID!, data: MenusMenuInput!): MenusMenuEntityResponse
+  deleteMenusMenu(id: ID!): MenusMenuEntityResponse
+  createMenusMenuItem(data: MenusMenuItemInput!): MenusMenuItemEntityResponse
+  updateMenusMenuItem(
+    id: ID!
+    data: MenusMenuItemInput!
+  ): MenusMenuItemEntityResponse
+  deleteMenusMenuItem(id: ID!): MenusMenuItemEntityResponse
+  updateApp(data: AppInput!): AppEntityResponse
+  deleteApp: AppEntityResponse
+  updateAppTodo(data: AppTodoInput!): AppTodoEntityResponse
+  deleteAppTodo: AppTodoEntityResponse
   createCategory(data: CategoryInput!): CategoryEntityResponse
   updateCategory(id: ID!, data: CategoryInput!): CategoryEntityResponse
   deleteCategory(id: ID!): CategoryEntityResponse
-  createTest(data: TestInput!): TestEntityResponse
-  updateTest(id: ID!, data: TestInput!): TestEntityResponse
-  deleteTest(id: ID!): TestEntityResponse
+  updateHomepage(data: HomepageInput!): HomepageEntityResponse
+  deleteHomepage: HomepageEntityResponse
   createTodo(data: TodoInput!): TodoEntityResponse
   updateTodo(id: ID!, data: TodoInput!): TodoEntityResponse
   deleteTodo(id: ID!): TodoEntityResponse

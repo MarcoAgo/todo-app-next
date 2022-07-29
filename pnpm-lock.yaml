@@ -17,10 +17,10 @@ specifiers:
   eslint-config-next: 12.2.3
   graphql: ^16.5.0
   graphql-request: ^4.3.0
+  jotai: ^1.7.6
   next: 12.2.3
   react: 18.2.0
   react-dom: 18.2.0
-  recoil: ^0.7.4
   typescript: 4.7.4
 
 dependencies:
@@ -28,10 +28,10 @@ dependencies:
   '@tanstack/react-query-devtools': 4.0.10_react@18.2.0
   graphql: 16.5.0
   graphql-request: 4.3.0_graphql@16.5.0
+  jotai: 1.7.6_react@18.2.0
   next: 12.2.3_biqbaboplfbrettd7655fr4n2y
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
-  recoil: 0.7.4_biqbaboplfbrettd7655fr4n2y
 
 devDependencies:
   '@graphql-codegen/cli': 2.9.1_3qef7a6dmym35gclyozp7fhcti
@@ -2904,10 +2904,6 @@ packages:
     resolution: {integrity: sha512-qbHgh8Ix+j/qY+a/ZcJnFQ+j8ezakqPiHwPiZhV/3PgGlgf96QMBB5/f2rkiC9sgLoy/xvT6TSiaf2nTHJh5iA==}
     engines: {node: ^12.22.0 || ^14.16.0 || ^16.0.0 || >=17.0.0}
 
-  /hamt_plus/1.0.2:
-    resolution: {integrity: sha512-t2JXKaehnMb9paaYA7J0BX8QQAY8lwfQ9Gjf4pg/mk4krt+cmwmU652HOoWonf+7+EQV97ARPMhhVgU1ra2GhA==}
-    dev: false
-
   /has-bigints/1.0.2:
     resolution: {integrity: sha512-tSvCKtBr9lkF0Ex0aQiP9N+OpV4zi2r/Nee5VkRDbaqv35RLYMzbwQfFSZZH0kR+Rd6302UJZ2p/bJCEoR3VoQ==}
     dev: true
@@ -3246,6 +3242,43 @@ packages:
     dependencies:
       ws: 8.8.1
     dev: true
+
+  /jotai/1.7.6_react@18.2.0:
+    resolution: {integrity: sha512-D3R5f6OvwUPUyTPQY3wGP800nb6bDEOl/mqftjxg3gcHVITeFcldr9W9IBK+gXsow357vhNXuci/LfD+rl92PA==}
+    engines: {node: '>=12.7.0'}
+    peerDependencies:
+      '@babel/core': '*'
+      '@babel/template': '*'
+      '@urql/core': '*'
+      immer: '*'
+      optics-ts: '*'
+      react: '>=16.8'
+      react-query: '*'
+      valtio: '*'
+      wonka: '*'
+      xstate: '*'
+    peerDependenciesMeta:
+      '@babel/core':
+        optional: true
+      '@babel/template':
+        optional: true
+      '@urql/core':
+        optional: true
+      immer:
+        optional: true
+      optics-ts:
+        optional: true
+      react-query:
+        optional: true
+      valtio:
+        optional: true
+      wonka:
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /js-tokens/4.0.0:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
@@ -3998,23 +4031,6 @@ packages:
     dependencies:
       picomatch: 2.3.1
     dev: true
-
-  /recoil/0.7.4_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-sCXvQGMfSprkNU4ZRkJV4B0qFQSURJMgsICqY1952WRlg66NMwYqi6n67vhnhn0qw4zHU1gHXJuMvRDaiRNFZw==}
-    peerDependencies:
-      react: '>=16.13.1'
-      react-dom: '*'
-      react-native: '*'
-    peerDependenciesMeta:
-      react-dom:
-        optional: true
-      react-native:
-        optional: true
-    dependencies:
-      hamt_plus: 1.0.2
-      react: 18.2.0
-      react-dom: 18.2.0_react@18.2.0
-    dev: false
 
   /regenerator-runtime/0.13.9:
     resolution: {integrity: sha512-p3VT+cOEgxFsRRA9X4lkI1E+k2/CtnKtU4gcxyaCUreilL/vqI6CdZ3wxVUx3UOUg+gnUOQQcRI7BmSI656MYA==}
