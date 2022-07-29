@@ -17,17 +17,13 @@ interface ICatchAllPageProps {
 const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
     // store
     const [nav, setNav] = useAtom(navigationAtom)
-
     const navigation = useNavQuery(graphqlRequestClient)
-
-    console.log(nav)
 
     useEffect(() => {
         if (navigation.data) {
             setNav(navigation.data as MenusMenuEntity[])
         }
     }, [JSON.stringify(navigation)])
-
 
     return (
         <div>A page will be rendered here</div> 

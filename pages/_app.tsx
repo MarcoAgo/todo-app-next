@@ -20,14 +20,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
+      <ErrorBoundary error={pageProps.error}>
         {pageProps.dehydratedState && (
           <Provider>
             <ReactQueryDevtools />
-            <ErrorBoundary error={pageProps.error}>
-              <Component {...pageProps} />
-            </ErrorBoundary>
+            <Component {...pageProps} />
           </Provider>
         )}
+        </ErrorBoundary>
       </Hydrate>
     </QueryClientProvider>
   )

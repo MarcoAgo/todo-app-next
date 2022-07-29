@@ -1,45 +1,29 @@
-import React, { ReactNode } from "react"
+import React, { FC, ReactNode, useEffect, useState } from "react"
 
-class ErrorBoundary extends React.Component<{ error?: Error, children: ReactNode }> {
-    constructor(props: any) {
-      super(props)
+const ErrorBoundary: FC<{ error?: Error, children: ReactNode }> = (props) => {
+    const [error, setError] = useState<Error | null>(null)
 
-      console.log(props)
-  
-      // Define a state variable to track whether is an error or not
-      this.state = { hasError: props.error ? true : false }
-    }
-    static getDerivedStateFromError() {
-      // Update state so the next render will show the fallback UI
-  
-      return { hasError: true }
-    }
-    componentDidCatch(error: any, errorInfo: any) {
-      // You can use your own error logging service here
-      console.log({ error, errorInfo })
-    }
-    render() {
-      // Check if the error is thrown
-      // @ts-ignore
-      if (this.state.hasError) {
-        // You can render any custom fallback UI
-        return (
-          <div>
-            <h2>Oops, there is an error!</h2>
-            <button
-              type="button"
-              onClick={() => this.setState({ hasError: false })}
-            >
-              Try again?
-            </button>
-          </div>
-        )
+    useEffect(() => {
+      if (props.error) {
+        setError(props.error)
       }
-  
-      // Return children components in case of no error
-      // @ts-ignore
-      return this.props.children
+    }, [props.error])
+
+    if (error) {
+      return (
+        <div>
+          <h2>Oops, there is an error!</h2>
+          <button
+            type="button"
+            onClick={() => setError(null)}
+          >
+            Try again?
+          </button>
+        </div>
+      )
     }
+
+    return null
   }
   
   export default ErrorBoundary
