@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useEffect, useState } from "react"
+import { FC, ReactNode, useEffect, useState } from "react"
 
 const ErrorBoundary: FC<{ error?: Error, children: ReactNode }> = (props) => {
     const [error, setError] = useState<Error | null>(null)
@@ -23,7 +23,11 @@ const ErrorBoundary: FC<{ error?: Error, children: ReactNode }> = (props) => {
       )
     }
 
-    return null
+    return (
+      <>
+        {props.children}
+      </>
+    )
   }
   
   export default ErrorBoundary

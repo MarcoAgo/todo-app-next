@@ -9,7 +9,7 @@ import ErrorBoundary from '../components/error/ErrorBoundary'
 const client = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: Infinity,
+      staleTime: 50000,
     }
   }
 })
@@ -21,10 +21,10 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
       <ErrorBoundary error={pageProps.error}>
+        <ReactQueryDevtools />
         {pageProps.dehydratedState && (
           <Provider>
-            <ReactQueryDevtools />
-            <Component {...pageProps} />
+            <Component {...pageProps} /> 
           </Provider>
         )}
         </ErrorBoundary>

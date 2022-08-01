@@ -12,6 +12,7 @@
   "dependencies": {
     "@tanstack/react-query": "^4.0.10",
     "@tanstack/react-query-devtools": "^4.0.10",
+    "framer-motion": "^6.5.1",
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0",
     "jotai": "^1.7.6",

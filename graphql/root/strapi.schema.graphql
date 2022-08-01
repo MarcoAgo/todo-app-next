@@ -204,6 +204,26 @@ type ComponentAtomImage {
   media_image: UploadFileEntityResponse!
 }
 
+input ComponentAtomLinkFiltersInput {
+  label: StringFilterInput
+  url: StringFilterInput
+  and: [ComponentAtomLinkFiltersInput]
+  or: [ComponentAtomLinkFiltersInput]
+  not: ComponentAtomLinkFiltersInput
+}
+
+input ComponentAtomLinkInput {
+  id: ID
+  label: String
+  url: String
+}
+
+type ComponentAtomLink {
+  id: ID!
+  label: String!
+  url: String!
+}
+
 input ComponentAtomTextInput {
   id: ID
   text: String
@@ -224,6 +244,22 @@ type ComponentAtomTitle {
   text: String!
 }
 
+input ComponentOrganismsHeaderInput {
+  id: ID
+  logo: ID
+  nav_link: [ComponentAtomLinkInput]
+}
+
+type ComponentOrganismsHeader {
+  id: ID!
+  logo: UploadFileEntityResponse
+  nav_link(
+    filters: ComponentAtomLinkFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentAtomLink]
+}
+
 input ComponentOrganismsTitleDescriptionImageInput {
   id: ID
   title: ComponentAtomTitleInput
@@ -236,6 +272,18 @@ type ComponentOrganismsTitleDescriptionImage {
   title: ComponentAtomTitle
   description: ComponentAtomText
   image: ComponentAtomImage
+}
+
+input ComponentTemplateDefaultPageInput {
+  id: ID
+  Seo: ComponentUtilsSeoInput
+  Meta: ComponentUtilsMetaRepeatableComponentInput
+}
+
+type ComponentTemplateDefaultPage {
+  id: ID!
+  Seo: ComponentUtilsSeo!
+  Meta: ComponentUtilsMetaRepeatableComponent
 }
 
 type ComponentUtilsComponent {
@@ -251,16 +299,6 @@ enum ENUM_COMPONENTUTILSCOMPONENTSLIST_COMPONENTSLIST {
 type ComponentUtilsComponentsList {
   id: ID!
   componentsList: ENUM_COMPONENTUTILSCOMPONENTSLIST_COMPONENTSLIST!
-}
-
-input ComponentUtilsMetaRepeatableComponentFiltersInput {
-  name: StringFilterInput
-  content: StringFilterInput
-  preventingIndex: BooleanFilterInput
-  structuredData: JSONFilterInput
-  and: [ComponentUtilsMetaRepeatableComponentFiltersInput]
-  or: [ComponentUtilsMetaRepeatableComponentFiltersInput]
-  not: ComponentUtilsMetaRepeatableComponentFiltersInput
 }
 
 input ComponentUtilsMetaRepeatableComponentInput {
@@ -738,20 +776,14 @@ type CategoryRelationResponseCollection {
 }
 
 input HomepageInput {
-  seo: ComponentUtilsSeoInput
-  meta: [ComponentUtilsMetaRepeatableComponentInput]
-  titleDescriptionImage: ComponentOrganismsTitleDescriptionImageInput
+  seo_meta_data: ComponentTemplateDefaultPageInput
+  header: ComponentOrganismsHeaderInput
   publishedAt: DateTime
 }
 
 type Homepage {
-  seo: ComponentUtilsSeo
-  meta(
-    filters: ComponentUtilsMetaRepeatableComponentFiltersInput
-    pagination: PaginationArg = {}
-    sort: [String] = []
-  ): [ComponentUtilsMetaRepeatableComponent]
-  titleDescriptionImage: ComponentOrganismsTitleDescriptionImage
+  seo_meta_data: ComponentTemplateDefaultPage
+  header: ComponentOrganismsHeader
   createdAt: DateTime
   updatedAt: DateTime
   publishedAt: DateTime
@@ -821,9 +853,12 @@ type TodoRelationResponseCollection {
 union GenericMorph =
     ComponentAtomButton
   | ComponentAtomImage
+  | ComponentAtomLink
   | ComponentAtomText
   | ComponentAtomTitle
+  | ComponentOrganismsHeader
   | ComponentOrganismsTitleDescriptionImage
+  | ComponentTemplateDefaultPage
   | ComponentUtilsComponent
   | ComponentUtilsComponentsList
   | ComponentUtilsMetaRepeatableComponent

@@ -7,6 +7,8 @@ import { MenusMenuEntity, MenusMenuItemEntity, NavDocument, useNavQuery } from "
 import { useAtom } from "jotai";
 import navigationAtom from "../store/atoms/navigation/navigation-atom";
 import { useEffect } from "react";
+import { useCurrentDocumentQuery } from "../hooks/use-current-document-query";
+import { documentAtom } from "../store/atoms/document/document-atom";
 
 interface ICatchAllPageProps {
     dehydratedState: DehydratedState
@@ -15,8 +17,11 @@ interface ICatchAllPageProps {
 }
 
 const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
+    const useDocumentQuery = useCurrentDocumentQuery(props.document.key)
+
     // store
-    const [nav, setNav] = useAtom(navigationAtom)
+    const [, setNav] = useAtom(navigationAtom)
+    const [, setDocument] = useAtom(documentAtom)
     const navigation = useNavQuery(graphqlRequestClient)
 
     useEffect(() => {
@@ -25,8 +30,23 @@ const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
         }
     }, [JSON.stringify(navigation)])
 
+    useEffect(() => {
+        if (props.document.key) {
+            setDocument({
+                ...props.document,
+                useDocumentQuery,
+            })
+        }
+    }, [])
+
     return (
-        <div>A page will be rendered here</div> 
+        <div>
+            {/* ricordarsi di mettere la next head basata sui dati di pagina (og: tags e seo data) */}
+            <div className="header"></div>
+            <div className="container">
+                Component controller
+            </div>
+        </div>
     )
 }
 
