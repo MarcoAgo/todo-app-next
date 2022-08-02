@@ -4,7 +4,7 @@ import { getNavigationQuery } from "../../api/req/shared/get-navigation"
 import { LocalesEnum } from "../../utils/pages/get-document"
 
 
-export const useNavigation = (): UseQueryResult => {
+export const useNavigation = (): any => {
     const { locale } = useRouter()
     return useQuery(['navigation'], () => getNavigationQuery(locale as LocalesEnum))
 } 

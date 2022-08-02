@@ -11,6 +11,7 @@ export interface IGetRequest {
 }
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:1337/api'
+export const BASE_UPLOADS_URL = process.env.NEXT_PUBLIC_BASE_UPLOADS_URL || 'http://localhost:1337'
 
 const get = async ({ url, additionalHeaders, additionalRequestParams = {}, params = null }: IGetRequest) => {
     const query = new URLSearchParams(params)

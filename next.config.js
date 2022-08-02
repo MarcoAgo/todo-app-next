@@ -2,9 +2,13 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  images: {
+    domains: ['localhost']
+  },
   i18n: {
-    locales: ['it', 'en'],
-    defaultLocale: 'it',
+    locales: ['default', 'it', 'en'],
+    defaultLocale: 'default',
+    localeDetection: true
   },
   trailingSlash: true
 }

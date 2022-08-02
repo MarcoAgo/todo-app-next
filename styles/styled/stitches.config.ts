@@ -44,5 +44,10 @@ export const globalStyles = globalCss({
         color: '#fff',
         padding: 0,
         margin: 0,
+    },
+    a: {
+        '&: -webkit-any-link': {
+            color: '#fff'
+        }
     }
 })

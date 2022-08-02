@@ -6,12 +6,10 @@ import { getDocument } from "../utils/pages/get-document/get-current-document";
 import { LocalesEnum, Navigation } from "../utils/pages/get-document";
 import { getDocumentQuery } from "../api/req/shared/get-document";
 import { getNavigationQuery } from "../api/req/shared/get-navigation";
-import { useNavigation } from "../hooks/queries/use-navigation";
-import { useDocument } from "../hooks/queries/use-document";
+import Controller from "../components/controller/Controller";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useAtom } from "jotai";
-import { documentAtom } from "../store/atoms/document/document-atom";
-import navigationAtom from "../store/atoms/navigation/navigation-atom";
+import Header from "../components/organisms/header/Header";
 
 type NavQueryData = {
     pages: Navigation[]
@@ -25,24 +23,20 @@ interface ICatchAllPageProps {
 
 const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
     const { document } = props
-    const navigation = useNavigation()
-    const page = useDocument(document)
-
-    // store
-    const [, setDocument] = useAtom(documentAtom)
-    const [, setNavigation] = useAtom(navigationAtom)
+    const { push, asPath } = useRouter()
 
     useEffect(() => {
-        if (navigation.data) setNavigation(navigation.data as Navigation[])
-        if (page.data) setDocument(page.data)
-    }, [navigation.data, page.data])
+        if (document === 'homepage' && asPath !== '/') {
+            push('/')
+        }
+    }, [asPath, push])
 
     return (
         <div>
             {/* ricordarsi di mettere la next head basata sui dati di pagina (og: tags e seo data) */}
-            <div className="header"></div>
+            <Header />
             <div className="container">
-                Component controller
+                <Controller document={document} />
             </div>
         </div>
     )
@@ -54,6 +48,7 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
     const currentPath = resolvedUrlFromParams(ctx)
 
     try {
+        const start = performance.now()
         // prefetch navigation data
         await queryClient.prefetchQuery(['navigation'], () => getNavigationQuery(locale as LocalesEnum))
         const navigation = queryClient.getQueryData(['navigation']) as NavQueryData
@@ -61,13 +56,18 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
         // prefetch document data
         const document = getDocument(navArray, currentPath)
-        await queryClient.prefetchQuery([document], () => getDocumentQuery(document))
+        await queryClient.prefetchQuery([document], () => getDocumentQuery(document, locale as LocalesEnum))
+
+        const end = performance.now()
+
+        console.log(`page request took ${end - start} ms`)
         
         return {
             props: {
                 dehydratedState: dehydrate(queryClient),
                 document,
-            }
+            },
+            revalidate: 60,
         }
       } catch (e: any) {
         console.log('error', e)

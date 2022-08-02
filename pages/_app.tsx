@@ -10,7 +10,7 @@ import { globalStyles } from '../styles/styled/stitches.config'
 const client = new QueryClient({
   defaultOptions: {
     queries: {
-      staleTime: 50000,
+      staleTime: 500000,
     }
   }
 })
@@ -26,7 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Component {...pageProps} /> 
           </Provider>
       )
-    : <Loader />  
+    : <Loader />
 
   return (
     <QueryClientProvider client={queryClient}>

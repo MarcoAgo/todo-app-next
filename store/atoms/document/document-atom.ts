@@ -1,3 +1,11 @@
 import { atom } from "jotai";
 
-export const documentAtom = atom({})
+export type Page = {
+    data: {
+        attributes: {
+            components: any[]
+        }
+    }
+}
+
+export const documentAtom = atom<Partial<Page>>({})
