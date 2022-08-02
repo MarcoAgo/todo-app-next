@@ -1,17 +1,41 @@
-import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
+import { dehydrate, DehydratedState, QueryClient, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import type { NextPage } from 'next'
-import get, { BASE_URL } from "../api/methods/get";
 import { resolvedUrlFromParams } from "../api/utils/path-resolver";
 import { getDocument } from "../utils/pages/get-document/get-current-document";
-import { Navigation } from "../utils/pages/get-document";
+import { LocalesEnum, Navigation } from "../utils/pages/get-document";
+import { getDocumentQuery } from "../api/req/shared/get-document";
+import { getNavigationQuery } from "../api/req/shared/get-navigation";
+import { useNavigation } from "../hooks/queries/use-navigation";
+import { useDocument } from "../hooks/queries/use-document";
+import { useEffect } from "react";
+import { useAtom } from "jotai";
+import { documentAtom } from "../store/atoms/document/document-atom";
+import navigationAtom from "../store/atoms/navigation/navigation-atom";
+
+type NavQueryData = {
+    pages: Navigation[]
+    root: any
+}
 interface ICatchAllPageProps {
     dehydratedState: DehydratedState
     error?: Partial<Error>
+    document: string
 }
 
-const SwitchController: NextPage<ICatchAllPageProps> = () => {
-    
+const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
+    const { document } = props
+    const navigation = useNavigation()
+    const page = useDocument(document)
+
+    // store
+    const [, setDocument] = useAtom(documentAtom)
+    const [, setNavigation] = useAtom(navigationAtom)
+
+    useEffect(() => {
+        if (navigation.data) setNavigation(navigation.data as Navigation[])
+        if (page.data) setDocument(page.data)
+    }, [navigation.data, page.data])
 
     return (
         <div>
@@ -24,28 +48,25 @@ const SwitchController: NextPage<ICatchAllPageProps> = () => {
     )
 }
 
-
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
     const queryClient = new QueryClient()
-    const { params, locale } = ctx
+    const { locale } = ctx
     const currentPath = resolvedUrlFromParams(ctx)
 
     try {
-        const navigationRequestParams = {
-            url: `${BASE_URL}/navigation/render/main-navigation`,
-            params: { locale, type: 'RFR' }
-        }
-        const navigation = await get(navigationRequestParams)
-        const navArray = Object.values(navigation.pages) as Navigation[]
-        const document = getDocument(navArray, currentPath)
-        
-        const page = await get({ url: `${BASE_URL}/${document}?populate=deep` })
+        // prefetch navigation data
+        await queryClient.prefetchQuery(['navigation'], () => getNavigationQuery(locale as LocalesEnum))
+        const navigation = queryClient.getQueryData(['navigation']) as NavQueryData
+        const navArray = Object.values(navigation.pages)
 
-        queryClient.setQueryData([document], page)
+        // prefetch document data
+        const document = getDocument(navArray, currentPath)
+        await queryClient.prefetchQuery([document], () => getDocumentQuery(document))
         
         return {
             props: {
-                dehydratedState: dehydrate(queryClient)
+                dehydratedState: dehydrate(queryClient),
+                document,
             }
         }
       } catch (e: any) {
