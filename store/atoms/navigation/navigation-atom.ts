@@ -1,6 +1,6 @@
 import { atom } from "jotai";
-import { MenusMenuEntity } from "../../../graphql/generated/graphql-generated";
+import { Navigation } from "../../../utils/pages/get-document";
 
-const navigationAtom = atom<Partial<MenusMenuEntity[]>>([])
+const navigationAtom = atom<Navigation[] | never[]>([])
 
 export default navigationAtom

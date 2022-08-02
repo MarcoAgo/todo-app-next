@@ -1,82 +1,73 @@
-import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
+import { dehydrate, DehydratedState, QueryClient, useQuery, UseQueryResult } from "@tanstack/react-query";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import type { NextPage } from 'next'
-import { graphqlRequestClient } from "../graphql/utils/graphql-client";
-import { getRequestDocumentResolver, MenuLocationEntityData } from "../utils/pages/page-data-resolver";
-import { MenusMenuEntity, MenusMenuItemEntity, NavDocument, useNavQuery } from "../graphql/generated/graphql-generated";
-import { useAtom } from "jotai";
-import navigationAtom from "../store/atoms/navigation/navigation-atom";
+import { resolvedUrlFromParams } from "../api/utils/path-resolver";
+import { getDocument } from "../utils/pages/get-document/get-current-document";
+import { LocalesEnum, Navigation } from "../utils/pages/get-document";
+import { getDocumentQuery } from "../api/req/shared/get-document";
+import { getNavigationQuery } from "../api/req/shared/get-navigation";
+import Controller from "../components/controller/Controller";
+import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { useCurrentDocumentQuery } from "../hooks/use-current-document-query";
-import { documentAtom } from "../store/atoms/document/document-atom";
+import Header from "../components/organisms/header/Header";
 
+type NavQueryData = {
+    pages: Navigation[]
+    root: any
+}
 interface ICatchAllPageProps {
     dehydratedState: DehydratedState
     error?: Partial<Error>
-    document: MenuLocationEntityData
+    document: string
 }
 
 const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
-    const useDocumentQuery = useCurrentDocumentQuery(props.document.key)
-
-    // store
-    const [, setNav] = useAtom(navigationAtom)
-    const [, setDocument] = useAtom(documentAtom)
-    const navigation = useNavQuery(graphqlRequestClient)
+    const { document } = props
+    const { push, asPath } = useRouter()
 
     useEffect(() => {
-        if (navigation.data) {
-            setNav(navigation.data as MenusMenuEntity[])
+        if (document === 'homepage' && asPath !== '/') {
+            push('/')
         }
-    }, [JSON.stringify(navigation)])
-
-    useEffect(() => {
-        if (props.document.key) {
-            setDocument({
-                ...props.document,
-                useDocumentQuery,
-            })
-        }
-    }, [])
+    }, [asPath, push])
 
     return (
         <div>
             {/* ricordarsi di mettere la next head basata sui dati di pagina (og: tags e seo data) */}
-            <div className="header"></div>
+            <Header />
             <div className="container">
-                Component controller
+                <Controller document={document} />
             </div>
         </div>
     )
 }
 
-
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
     const queryClient = new QueryClient()
+    const { locale } = ctx
+    const currentPath = resolvedUrlFromParams(ctx)
 
     try {
-        // request navigation data
-        const { menusMenus } = await graphqlRequestClient.request(NavDocument)
-        queryClient.setQueryData(['nav'], menusMenus.data)
+        const start = performance.now()
+        // prefetch navigation data
+        await queryClient.prefetchQuery(['navigation'], () => getNavigationQuery(locale as LocalesEnum))
+        const navigation = queryClient.getQueryData(['navigation']) as NavQueryData
+        const navArray = Object.values(navigation.pages)
 
-        const { attributes: navigation } = menusMenus.data.find(
-            (menu: MenusMenuItemEntity) => menu.attributes?.title === 'main'
-        )        
+        // prefetch document data
+        const document = getDocument(navArray, currentPath)
+        await queryClient.prefetchQuery([document], () => getDocumentQuery(document, locale as LocalesEnum))
 
-        // retrieve page data
-        const document = getRequestDocumentResolver(ctx, navigation) as MenuLocationEntityData
+        const end = performance.now()
+
+        console.log(`page request took ${end - start} ms`)
         
-        // do request to get data
-        const result = await graphqlRequestClient.request(document.query)
-    
-        // cache data into query client
-        queryClient.setQueryData([document.key], result[document.key].data)
-    
-        return { 
+        return {
             props: {
                 dehydratedState: dehydrate(queryClient),
                 document,
-            }
+            },
+            revalidate: 60,
         }
       } catch (e: any) {
         console.log('error', e)
