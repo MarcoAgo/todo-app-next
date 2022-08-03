@@ -1,33 +1,10 @@
-fragment titleDescriptionImage on Homepage  {
-  titleDescriptionImage {
-    title {
-      text
-    }
-    description {
-      text
-    }
-    image {
-      media_image {
-        data {
-          attributes {
-            url
-          }
-        }
-      }
-    }
-  }
-}
-
-query homepage {
-  homepage {
+query homepage($locale: I18NLocaleCode) {
+  homepage(locale: $locale) {
     data {
-      id
       attributes {
-        seo {
-          metaTitle
-          metaDescription
+        components {
+          ...heroOpener
         }
-        ...titleDescriptionImage
       }
     }
   }

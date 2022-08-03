@@ -1,19 +1,26 @@
-query nav {
-  menusMenus {
-    data {
+query mainNavigation($locale: I18NLocaleCode, $path: String) {
+  renderNavigation(navigationIdOrSlug: "main-navigation", type: TREE, locale: $locale, path: $path) {
+    id
+    path
+    title
+    type
+    uiRouterKey
+    page_id
+    items {
       id
-      attributes {
+      title
+      path
+      items {
+        id
         title
-        items {
-          data {
-            attributes {
-              url
-              title
-              target
-              order
-            }
-          }
-        }
+        path
+      }
+      parent {
+        path
+        id
+        title
+        type
+        uiRouterKey
       }
     }
   }

@@ -1,0 +1,21 @@
+fragment heroOpener on ComponentOrganismsHeroOpener {
+  id
+  title {
+    text
+  }
+  description {
+    text
+  }
+  bg_media {
+    data {
+      attributes {
+        url
+        previewUrl
+        provider
+        hash
+        formats
+        name
+      }
+    }
+  }
+}

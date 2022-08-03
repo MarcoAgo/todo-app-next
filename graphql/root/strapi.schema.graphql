@@ -7,6 +7,11 @@ scalar DateTime
 # The `Upload` scalar type represents a file upload.
 scalar Upload
 
+type Error {
+  code: String!
+  message: String
+}
+
 type Pagination {
   total: Int!
   page: Int!
@@ -187,11 +192,15 @@ input JSONFilterInput {
 input ComponentAtomButtonInput {
   id: ID
   label: String
+  type: String
+  url: String
 }
 
 type ComponentAtomButton {
   id: ID!
   label: String!
+  type: String
+  url: String
 }
 
 input ComponentAtomImageInput {
@@ -210,12 +219,6 @@ input ComponentAtomLinkFiltersInput {
   and: [ComponentAtomLinkFiltersInput]
   or: [ComponentAtomLinkFiltersInput]
   not: ComponentAtomLinkFiltersInput
-}
-
-input ComponentAtomLinkInput {
-  id: ID
-  label: String
-  url: String
 }
 
 type ComponentAtomLink {
@@ -244,12 +247,6 @@ type ComponentAtomTitle {
   text: String!
 }
 
-input ComponentOrganismsHeaderInput {
-  id: ID
-  logo: ID
-  nav_link: [ComponentAtomLinkInput]
-}
-
 type ComponentOrganismsHeader {
   id: ID!
   logo: UploadFileEntityResponse
@@ -260,11 +257,26 @@ type ComponentOrganismsHeader {
   ): [ComponentAtomLink]
 }
 
+type ComponentOrganismsHeroOpener {
+  id: ID!
+  title: ComponentAtomTitle
+  description: ComponentAtomText
+  bg_media: UploadFileEntityResponse
+}
+
+type ComponentOrganismsTitleDescriptionButton {
+  id: ID!
+  title: ComponentAtomTitle
+  description: ComponentAtomText
+  cta: ComponentAtomButton
+}
+
 input ComponentOrganismsTitleDescriptionImageInput {
   id: ID
   title: ComponentAtomTitleInput
   description: ComponentAtomTextInput
   image: ComponentAtomImageInput
+  cta: ComponentAtomButtonInput
 }
 
 type ComponentOrganismsTitleDescriptionImage {
@@ -272,18 +284,13 @@ type ComponentOrganismsTitleDescriptionImage {
   title: ComponentAtomTitle
   description: ComponentAtomText
   image: ComponentAtomImage
-}
-
-input ComponentTemplateDefaultPageInput {
-  id: ID
-  Seo: ComponentUtilsSeoInput
-  Meta: ComponentUtilsMetaRepeatableComponentInput
+  cta: ComponentAtomButton
 }
 
 type ComponentTemplateDefaultPage {
   id: ID!
-  Seo: ComponentUtilsSeo!
-  Meta: ComponentUtilsMetaRepeatableComponent
+  seo: ComponentUtilsSeo!
+  meta: ComponentUtilsMetaRepeatableComponent
 }
 
 type ComponentUtilsComponent {
@@ -301,15 +308,6 @@ type ComponentUtilsComponentsList {
   componentsList: ENUM_COMPONENTUTILSCOMPONENTSLIST_COMPONENTSLIST!
 }
 
-input ComponentUtilsMetaRepeatableComponentInput {
-  id: ID
-  name: String
-  content: String
-  preventingIndex: Boolean
-  structuredData: JSON
-  metaImage: ID
-}
-
 type ComponentUtilsMetaRepeatableComponent {
   id: ID!
   name: String
@@ -317,12 +315,6 @@ type ComponentUtilsMetaRepeatableComponent {
   preventingIndex: Boolean
   structuredData: JSON
   metaImage: UploadFileEntityResponse
-}
-
-input ComponentUtilsSeoInput {
-  id: ID
-  metaTitle: String
-  metaDescription: String
 }
 
 type ComponentUtilsSeo {
@@ -723,6 +715,48 @@ type AppTodoEntityResponse {
   data: AppTodoEntity
 }
 
+union AuthorComponentsDynamicZone =
+    ComponentAtomButton
+  | ComponentAtomImage
+  | ComponentAtomLink
+  | ComponentAtomText
+  | ComponentAtomTitle
+  | ComponentOrganismsHeader
+  | ComponentOrganismsTitleDescriptionImage
+  | ComponentTemplateDefaultPage
+  | Error
+
+scalar AuthorComponentsDynamicZoneInput
+
+input AuthorInput {
+  components: [AuthorComponentsDynamicZoneInput!]
+  publishedAt: DateTime
+}
+
+type Author {
+  components: [AuthorComponentsDynamicZone]
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+  localizations(
+    publicationState: PublicationState = LIVE
+  ): AuthorRelationResponseCollection
+  locale: String
+}
+
+type AuthorEntity {
+  id: ID
+  attributes: Author
+}
+
+type AuthorEntityResponse {
+  data: AuthorEntity
+}
+
+type AuthorRelationResponseCollection {
+  data: [AuthorEntity!]!
+}
+
 input CategoryFiltersInput {
   id: IDFilterInput
   title: StringFilterInput
@@ -775,18 +809,82 @@ type CategoryRelationResponseCollection {
   data: [CategoryEntity!]!
 }
 
+union ContactComponentsDynamicZone =
+    ComponentAtomButton
+  | ComponentAtomImage
+  | ComponentAtomLink
+  | ComponentAtomText
+  | ComponentAtomTitle
+  | ComponentOrganismsHeader
+  | ComponentOrganismsTitleDescriptionImage
+  | ComponentTemplateDefaultPage
+  | Error
+
+scalar ContactComponentsDynamicZoneInput
+
+input ContactInput {
+  components: [ContactComponentsDynamicZoneInput!]
+  publishedAt: DateTime
+}
+
+type Contact {
+  components: [ContactComponentsDynamicZone]
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+  localizations(
+    publicationState: PublicationState = LIVE
+  ): ContactRelationResponseCollection
+  locale: String
+}
+
+type ContactEntity {
+  id: ID
+  attributes: Contact
+}
+
+type ContactEntityResponse {
+  data: ContactEntity
+}
+
+type ContactRelationResponseCollection {
+  data: [ContactEntity!]!
+}
+
+union HomepageComponentsDynamicZone =
+    ComponentAtomTitle
+  | ComponentOrganismsHeader
+  | ComponentAtomButton
+  | ComponentAtomImage
+  | ComponentAtomLink
+  | ComponentAtomText
+  | ComponentOrganismsTitleDescriptionImage
+  | ComponentOrganismsHeroOpener
+  | ComponentOrganismsTitleDescriptionButton
+  | Error
+
+scalar HomepageComponentsDynamicZoneInput
+
+union HomepageSeoDynamicZone = ComponentUtilsSeo | Error
+
+scalar HomepageSeoDynamicZoneInput
+
 input HomepageInput {
-  seo_meta_data: ComponentTemplateDefaultPageInput
-  header: ComponentOrganismsHeaderInput
+  components: [HomepageComponentsDynamicZoneInput!]
+  seo: [HomepageSeoDynamicZoneInput!]
   publishedAt: DateTime
 }
 
 type Homepage {
-  seo_meta_data: ComponentTemplateDefaultPage
-  header: ComponentOrganismsHeader
+  components: [HomepageComponentsDynamicZone]
+  seo: [HomepageSeoDynamicZone]
   createdAt: DateTime
   updatedAt: DateTime
   publishedAt: DateTime
+  localizations(
+    publicationState: PublicationState = LIVE
+  ): HomepageRelationResponseCollection
+  locale: String
 }
 
 type HomepageEntity {
@@ -796,6 +894,10 @@ type HomepageEntity {
 
 type HomepageEntityResponse {
   data: HomepageEntity
+}
+
+type HomepageRelationResponseCollection {
+  data: [HomepageEntity!]!
 }
 
 input TodoFiltersInput {
@@ -850,6 +952,52 @@ type TodoRelationResponseCollection {
   data: [TodoEntity!]!
 }
 
+union WhyComponentsDynamicZone =
+    ComponentAtomButton
+  | ComponentAtomImage
+  | ComponentAtomLink
+  | ComponentAtomText
+  | ComponentAtomTitle
+  | ComponentTemplateDefaultPage
+  | ComponentOrganismsHeader
+  | ComponentOrganismsTitleDescriptionImage
+  | ComponentUtilsComponent
+  | ComponentUtilsComponentsList
+  | ComponentUtilsMetaRepeatableComponent
+  | ComponentUtilsSeo
+  | Error
+
+scalar WhyComponentsDynamicZoneInput
+
+input WhyInput {
+  components: [WhyComponentsDynamicZoneInput!]
+  publishedAt: DateTime
+}
+
+type Why {
+  components: [WhyComponentsDynamicZone]
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+  localizations(
+    publicationState: PublicationState = LIVE
+  ): WhyRelationResponseCollection
+  locale: String
+}
+
+type WhyEntity {
+  id: ID
+  attributes: Why
+}
+
+type WhyEntityResponse {
+  data: WhyEntity
+}
+
+type WhyRelationResponseCollection {
+  data: [WhyEntity!]!
+}
+
 union GenericMorph =
     ComponentAtomButton
   | ComponentAtomImage
@@ -857,6 +1005,8 @@ union GenericMorph =
   | ComponentAtomText
   | ComponentAtomTitle
   | ComponentOrganismsHeader
+  | ComponentOrganismsHeroOpener
+  | ComponentOrganismsTitleDescriptionButton
   | ComponentOrganismsTitleDescriptionImage
   | ComponentTemplateDefaultPage
   | ComponentUtilsComponent
@@ -872,15 +1022,21 @@ union GenericMorph =
   | MenusMenuItem
   | App
   | AppTodo
+  | Author
   | Category
+  | Contact
   | Homepage
   | Todo
+  | Why
 
 input FileInfoInput {
   name: String
   alternativeText: String
   caption: String
 }
+
+# A string used to identify an i18n locale
+scalar I18NLocaleCode
 
 type UsersPermissionsMe {
   id: ID!
@@ -931,6 +1087,44 @@ type UsersPermissionsDeleteRolePayload {
   ok: Boolean!
 }
 
+union NavigationItemRelated = Homepage | AppTodo | App | Author | Contact | Why
+
+type NavigationItemRelatedData {
+  id: Int!
+  attributes: NavigationItemRelated
+}
+
+type NavigationItem {
+  id: Int!
+  title: String!
+  type: String!
+  path: String
+  externalPath: String
+  uiRouterKey: String!
+  menuAttached: Boolean!
+  order: Int!
+  parent: NavigationItem
+  master: Int
+  items: [NavigationItem]
+  related: NavigationItemRelatedData
+  created_at: String
+  updated_at: String
+  created_by: String
+  updated_by: String
+  createdAt: String
+  updatedAt: String
+  createdBy: String
+  updatedBy: String
+  audience: [String]
+  page_id: String
+}
+
+enum NavigationRenderType {
+  FLAT
+  TREE
+  RFR
+}
+
 input PaginationArg {
   page: Int
   pageSize: Int
@@ -977,6 +1171,10 @@ type Query {
   ): MenusMenuItemEntityResponseCollection
   app(publicationState: PublicationState = LIVE): AppEntityResponse
   appTodo(publicationState: PublicationState = LIVE): AppTodoEntityResponse
+  author(
+    publicationState: PublicationState = LIVE
+    locale: I18NLocaleCode
+  ): AuthorEntityResponse
   category(id: ID): CategoryEntityResponse
   categories(
     filters: CategoryFiltersInput
@@ -984,7 +1182,14 @@ type Query {
     sort: [String] = []
     publicationState: PublicationState = LIVE
   ): CategoryEntityResponseCollection
-  homepage(publicationState: PublicationState = LIVE): HomepageEntityResponse
+  contact(
+    publicationState: PublicationState = LIVE
+    locale: I18NLocaleCode
+  ): ContactEntityResponse
+  homepage(
+    publicationState: PublicationState = LIVE
+    locale: I18NLocaleCode
+  ): HomepageEntityResponse
   todo(id: ID): TodoEntityResponse
   todos(
     filters: TodoFiltersInput
@@ -992,7 +1197,24 @@ type Query {
     sort: [String] = []
     publicationState: PublicationState = LIVE
   ): TodoEntityResponseCollection
+  why(
+    publicationState: PublicationState = LIVE
+    locale: I18NLocaleCode
+  ): WhyEntityResponse
   me: UsersPermissionsMe
+  renderNavigationChild(
+    id: String!
+    childUiKey: String!
+    type: NavigationRenderType
+    menuOnly: Boolean
+  ): [NavigationItem]!
+  renderNavigation(
+    navigationIdOrSlug: String!
+    type: NavigationRenderType
+    menuOnly: Boolean
+    path: String
+    locale: I18NLocaleCode
+  ): [NavigationItem]!
 }
 
 type Mutation {
@@ -1012,14 +1234,26 @@ type Mutation {
   deleteApp: AppEntityResponse
   updateAppTodo(data: AppTodoInput!): AppTodoEntityResponse
   deleteAppTodo: AppTodoEntityResponse
+  updateAuthor(data: AuthorInput!, locale: I18NLocaleCode): AuthorEntityResponse
+  deleteAuthor(locale: I18NLocaleCode): AuthorEntityResponse
   createCategory(data: CategoryInput!): CategoryEntityResponse
   updateCategory(id: ID!, data: CategoryInput!): CategoryEntityResponse
   deleteCategory(id: ID!): CategoryEntityResponse
-  updateHomepage(data: HomepageInput!): HomepageEntityResponse
-  deleteHomepage: HomepageEntityResponse
+  updateContact(
+    data: ContactInput!
+    locale: I18NLocaleCode
+  ): ContactEntityResponse
+  deleteContact(locale: I18NLocaleCode): ContactEntityResponse
+  updateHomepage(
+    data: HomepageInput!
+    locale: I18NLocaleCode
+  ): HomepageEntityResponse
+  deleteHomepage(locale: I18NLocaleCode): HomepageEntityResponse
   createTodo(data: TodoInput!): TodoEntityResponse
   updateTodo(id: ID!, data: TodoInput!): TodoEntityResponse
   deleteTodo(id: ID!): TodoEntityResponse
+  updateWhy(data: WhyInput!, locale: I18NLocaleCode): WhyEntityResponse
+  deleteWhy(locale: I18NLocaleCode): WhyEntityResponse
   upload(
     refId: ID
     ref: String
@@ -1035,6 +1269,26 @@ type Mutation {
   ): [UploadFileEntityResponse]!
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
   removeFile(id: ID!): UploadFileEntityResponse
+  createAuthorLocalization(
+    id: ID
+    data: AuthorInput
+    locale: I18NLocaleCode
+  ): AuthorEntityResponse
+  createContactLocalization(
+    id: ID
+    data: ContactInput
+    locale: I18NLocaleCode
+  ): ContactEntityResponse
+  createHomepageLocalization(
+    id: ID
+    data: HomepageInput
+    locale: I18NLocaleCode
+  ): HomepageEntityResponse
+  createWhyLocalization(
+    id: ID
+    data: WhyInput
+    locale: I18NLocaleCode
+  ): WhyEntityResponse
 
   # Create a new role
   createUsersPermissionsRole(

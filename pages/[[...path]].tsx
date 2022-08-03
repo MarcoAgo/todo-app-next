@@ -1,44 +1,19 @@
 import { dehydrate, DehydratedState, QueryClient } from "@tanstack/react-query";
 import { GetStaticPaths, GetStaticPropsContext } from "next";
 import type { NextPage } from 'next'
+import { fetchNavigation } from "../utils/pages/fetch-navigation";
+import { pageQueryResolver } from "../utils/pages/page-data-resolver";
+import { I18NLocale } from "../graphql/generated/graphql-generated";
 import { graphqlRequestClient } from "../graphql/utils/graphql-client";
-import { getRequestDocumentResolver, MenuLocationEntityData } from "../utils/pages/page-data-resolver";
-import { MenusMenuEntity, MenusMenuItemEntity, NavDocument, useNavQuery } from "../graphql/generated/graphql-generated";
-import { useAtom } from "jotai";
-import navigationAtom from "../store/atoms/navigation/navigation-atom";
-import { useEffect } from "react";
-import { useCurrentDocumentQuery } from "../hooks/use-current-document-query";
-import { documentAtom } from "../store/atoms/document/document-atom";
 
 interface ICatchAllPageProps {
     dehydratedState: DehydratedState
     error?: Partial<Error>
-    document: MenuLocationEntityData
+    pageQuery: string
+    pageQueryName: string
 }
 
 const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
-    const useDocumentQuery = useCurrentDocumentQuery(props.document.key)
-
-    // store
-    const [, setNav] = useAtom(navigationAtom)
-    const [, setDocument] = useAtom(documentAtom)
-    const navigation = useNavQuery(graphqlRequestClient)
-
-    useEffect(() => {
-        if (navigation.data) {
-            setNav(navigation.data as MenusMenuEntity[])
-        }
-    }, [JSON.stringify(navigation)])
-
-    useEffect(() => {
-        if (props.document.key) {
-            setDocument({
-                ...props.document,
-                useDocumentQuery,
-            })
-        }
-    }, [])
-
     return (
         <div>
             {/* ricordarsi di mettere la next head basata sui dati di pagina (og: tags e seo data) */}
@@ -52,30 +27,28 @@ const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
 
 
 export const getStaticProps = async (ctx: GetStaticPropsContext) => {
+    const { locale } = ctx
     const queryClient = new QueryClient()
 
     try {
-        // request navigation data
-        const { menusMenus } = await graphqlRequestClient.request(NavDocument)
-        queryClient.setQueryData(['nav'], menusMenus.data)
+        const start = performance.now()
 
-        const { attributes: navigation } = menusMenus.data.find(
-            (menu: MenusMenuItemEntity) => menu.attributes?.title === 'main'
-        )        
+        const navigation = await fetchNavigation(locale)
+        const { pageQuery, pageQueryName } = await pageQueryResolver(locale as I18NLocale, ctx)
+        const page = await graphqlRequestClient.request(pageQuery)
 
-        // retrieve page data
-        const document = getRequestDocumentResolver(ctx, navigation) as MenuLocationEntityData
-        
-        // do request to get data
-        const result = await graphqlRequestClient.request(document.query)
-    
-        // cache data into query client
-        queryClient.setQueryData([document.key], result[document.key].data)
-    
+        queryClient.setQueryData(['mainNavigation'], navigation)
+        queryClient.setQueryData([pageQueryName], page)
+
+        const end = performance.now()
+
+        console.log(`page request took ${end - start} ms`)
+
         return { 
             props: {
                 dehydratedState: dehydrate(queryClient),
-                document,
+                pageQuery,
+                pageQueryName,
             }
         }
       } catch (e: any) {

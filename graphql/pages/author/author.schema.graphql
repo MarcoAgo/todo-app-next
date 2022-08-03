@@ -1,0 +1,11 @@
+query author($locale: I18NLocaleCode) {
+  author(locale: $locale) {
+    data {
+      attributes {
+        components {
+          ...title,
+        }
+      }
+    }
+  }
+}
