@@ -3,39 +3,53 @@ import Link from "next/link"
 import LinkAtom from "../../atoms/link/Link"
 import { FC } from "react"
 import { BASE_UPLOADS_URL } from "../../../api/methods/get"
-import { ILinkProps } from "../../atoms/link/Link"
 import * as Styles from "./Header.styles"
 import { useNavigation } from "../../../hooks/queries/use-navigation"
 import { useRouter } from "next/router"
+import { ParentType } from "../../../utils/pages/get-document"
+export interface INavigation {
+    id: string
+    menuAttached: boolean
+    parent: ParentType | null
+    path: string
+    related: {
+        contentType: string
+        id: number
+    }
+    slug: string
+    templateName: string
+    title: string
+}
 
-interface IHeaderProps {}
-
-const Header: FC<IHeaderProps> = (props): JSX.Element => {
+const Header: FC = (): JSX.Element => {
     const { data: navigation } = useNavigation()
+    const navArray = Object.values(navigation.pages) as INavigation[]
     const { asPath } = useRouter()
 
-    const renderLink = (link: any) => (
-        <LinkAtom
-            id={link.id} 
-            label={link.title} 
-            url={link.path} 
-            isSelected={asPath === `${link.path}/`}
-        />
+    const renderLink = (link: INavigation) => (
+        <div key={link.title}>
+            <LinkAtom
+                id={Number(link.id)} 
+                label={link.title} 
+                url={link.path} 
+                isSelected={asPath === `${link.path}/`}
+            />
+        </div>
     )
 
     return (
         <Styles.Container>
-            <Styles.Logo>
                 <Link href="/">
-                    <Image
-                        src={`${BASE_UPLOADS_URL}/uploads/to_do_list_50a594af0d.png`} 
-                        height={56} 
-                        width={56}
-                    />
+                    <Styles.Logo>
+                        <Image
+                            src={`${BASE_UPLOADS_URL}/uploads/to_do_list_50a594af0d.png`} 
+                            height={56} 
+                            width={56}
+                        />
+                    </Styles.Logo>
                 </Link>
-            </Styles.Logo>
             <Styles.Links>
-                {Object.values(navigation.pages).map(renderLink)}
+                {navArray.map(renderLink)}
             </Styles.Links>
         </Styles.Container>
     )

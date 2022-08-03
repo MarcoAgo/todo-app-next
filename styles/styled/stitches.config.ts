@@ -3,8 +3,8 @@ import { createStitches } from "@stitches/react";
 export const { styled, getCssText, globalCss, css } = createStitches({
     theme: {
         colors: {
-            background: '#474747',
-            text: '#fff',
+            background: '#fff',
+            text: '#474747',
         },
         space: {},
         fontSizes: {
@@ -32,7 +32,10 @@ export const { styled, getCssText, globalCss, css } = createStitches({
         borderStyles: {},
         radii: {},
         shadows: {},
-        zIndices: {},
+        zIndices: {
+            overlay: 100,
+            behind: -1
+        },
         transitions: {},
     }
 })
@@ -40,10 +43,11 @@ export const { styled, getCssText, globalCss, css } = createStitches({
 export const globalStyles = globalCss({
     body: {
         fontFamily: 'Roboto, sans-serif',
-        backgroundColor: '#474747',
-        color: '#fff',
+        backgroundColor: '#fff',
+        color: '#474747',
         padding: 0,
         margin: 0,
+        overflowX: 'hidden'
     },
     a: {
         '&: -webkit-any-link': {

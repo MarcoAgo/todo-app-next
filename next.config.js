@@ -8,7 +8,6 @@ const nextConfig = {
   i18n: {
     locales: ['default', 'it', 'en'],
     defaultLocale: 'default',
-    localeDetection: true
   },
   trailingSlash: true
 }

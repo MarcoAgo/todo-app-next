@@ -1,26 +1,32 @@
 import { FC } from "react";
 import { styled } from "../../../styles/styled/stitches.config";
 
-interface ITitleProps {
+export interface ITitleProps {
     id: number
-    text: string    
+    text: string
+    className?: string
+    style?: any
 }
 
 export const StyledTitle = styled('div', {
     width: '100vw',
     height: 'auto',
+    fontFamily: '$display',
     fontSize: '$xl',
     color: '$text',
     display: 'flex',
     justifyContent: 'center',
-    margin: '32px 0'
+    
+    'h1': {
+        margin: 0,
+    }
 })
 
 const Title: FC<ITitleProps> = (props) => {
-    const { text } = props
+    const { text, className, style } = props
 
     return (
-        <StyledTitle>
+        <StyledTitle className={className} style={style}>
             <h1>{text}</h1>
         </StyledTitle>
     )

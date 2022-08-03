@@ -10,18 +10,26 @@ export enum ComponentDesignEnum {
     MOLECULES = 'molecules',
 }
 
-const renderComponent = (component: any) => {
+const renderComponent = (component: any, index: number) => {
     const [componentDesign, componentName] = component.__component.split('.')
 
     switch (componentDesign) {
         case ComponentDesignEnum.ATOM:
-            return <AtomsController atomName={componentName} componentProps={component} />
+            return (
+                <div key={`${component.__component}-${index}`}>
+                    <AtomsController atomName={componentName} componentProps={component} />
+                </div>
+            )
 
         case ComponentDesignEnum.MOLECULES:
-            return <div>molecules</div>
+            return <div key={`${component.__component}-${index}`}>molecules</div>
 
         case ComponentDesignEnum.ORGANISMS:
-            return <OrganismsController organismName={componentName} componentProps={component} />
+            return (
+                <div key={`${component.__component}-${index}`}>
+                    <OrganismsController organismName={componentName} componentProps={component} />
+                </div>
+            )
 
         case ComponentDesignEnum.TEMPLATES:
             return <div>templates</div>
@@ -38,7 +46,6 @@ const Controller: FC<{ document: string }> = (props) => {
     useEffect(() => {
         const components = page?.data?.attributes?.components
         if (components && components.length) {
-            console.log(components)
             setComponentsList(components)
         }
     }, [JSON.stringify(page)])

@@ -5,6 +5,12 @@ export const Container = styled('div', {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
+    position: "fixed",
+    top: 0,
+    left: 0,
+    width: '100vw',
+    height: '88px',
+    zIndex: '$overlay'
 })
 
 export const Logo = styled('div', {

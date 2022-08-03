@@ -7,6 +7,8 @@ export interface ILinkProps {
     label: string
     url: string
     isSelected: boolean
+    className?: string
+    style?: any
 }
 
 const StyledLink = styled('div', {
@@ -35,10 +37,10 @@ const StyledLink = styled('div', {
 })
 
 const LinkAtom: FC<ILinkProps> = (props) => {
-    const { label, url, isSelected } = props
+    const { label, url, isSelected, style, className } = props
     
     return (
-        <StyledLink isSelected={isSelected}>
+        <StyledLink isSelected={isSelected} className={className} style={style}>
             <Link href={url}>
                 {label}
             </Link>
