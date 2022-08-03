@@ -41,7 +41,7 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
         const { pageQuery, pageQueryName } = await pageQueryResolver(locale as I18NLocale, ctx)
         const page = await graphqlRequestClient.request(pageQuery)
 
-        queryClient.setQueryData(['mainNavigation'], navigation)
+        queryClient.setQueryData(['mainNavigation', { locale }], navigation)
         queryClient.setQueryData([pageQueryName], page)
 
         const end = performance.now()
