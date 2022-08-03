@@ -5,7 +5,7 @@ export type RenderNavigation = {
     renderNavigation: NavigationItem[]
 }
 
-export const fetchNavigation = async (locale?: string): Promise<NavigationItem[]> => {
+export const fetchNavigation = async (locale?: string): Promise<RenderNavigation> => {
     const result: RenderNavigation = await graphqlRequestClient.request(MainNavigationDocument, { locale })
-    return result.renderNavigation
+    return result
 }

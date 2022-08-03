@@ -251,11 +251,13 @@ export type ComponentAtomTextInput = {
 
 export type ComponentAtomTitle = {
   __typename?: 'ComponentAtomTitle';
+  componentName: Scalars['String'];
   id: Scalars['ID'];
   text: Scalars['String'];
 };
 
 export type ComponentAtomTitleInput = {
+  componentName?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   text?: InputMaybe<Scalars['String']>;
 };
@@ -277,6 +279,7 @@ export type ComponentOrganismsHeaderNav_LinkArgs = {
 export type ComponentOrganismsHeroOpener = {
   __typename?: 'ComponentOrganismsHeroOpener';
   bg_media?: Maybe<UploadFileEntityResponse>;
+  componentName: Scalars['String'];
   description?: Maybe<ComponentAtomText>;
   id: Scalars['ID'];
   title?: Maybe<ComponentAtomTitle>;
@@ -284,6 +287,7 @@ export type ComponentOrganismsHeroOpener = {
 
 export type ComponentOrganismsTitleDescriptionButton = {
   __typename?: 'ComponentOrganismsTitleDescriptionButton';
+  componentName: Scalars['String'];
   cta?: Maybe<ComponentAtomButton>;
   description?: Maybe<ComponentAtomText>;
   id: Scalars['ID'];
@@ -292,6 +296,7 @@ export type ComponentOrganismsTitleDescriptionButton = {
 
 export type ComponentOrganismsTitleDescriptionImage = {
   __typename?: 'ComponentOrganismsTitleDescriptionImage';
+  componentName: Scalars['String'];
   cta?: Maybe<ComponentAtomButton>;
   description?: Maybe<ComponentAtomText>;
   id: Scalars['ID'];
@@ -300,6 +305,7 @@ export type ComponentOrganismsTitleDescriptionImage = {
 };
 
 export type ComponentOrganismsTitleDescriptionImageInput = {
+  componentName?: InputMaybe<Scalars['String']>;
   cta?: InputMaybe<ComponentAtomButtonInput>;
   description?: InputMaybe<ComponentAtomTextInput>;
   id?: InputMaybe<Scalars['ID']>;
@@ -1669,9 +1675,9 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryEntityResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null, attributes?: { __typename?: 'Category', title: string, description?: string | null, todos?: { __typename?: 'TodoRelationResponseCollection', data: Array<{ __typename?: 'TodoEntity', id?: string | null, attributes?: { __typename?: 'Todo', title: string, description?: string | null } | null }> } | null } | null }> } | null };
 
-export type TitleFragment = { __typename?: 'ComponentAtomTitle', id: string, text: string };
+export type TitleFragment = { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string };
 
-export type HeroOpenerFragment = { __typename?: 'ComponentOrganismsHeroOpener', id: string, title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, bg_media?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string } | null } | null } | null };
+export type HeroOpenerFragment = { __typename?: 'ComponentOrganismsHeroOpener', id: string, componentName: string, title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, bg_media?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string } | null } | null } | null };
 
 export type AppQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1688,14 +1694,21 @@ export type AuthorQueryVariables = Exact<{
 }>;
 
 
-export type AuthorQuery = { __typename?: 'Query', author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', attributes?: { __typename?: 'Author', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type AuthorQuery = { __typename?: 'Query', author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', attributes?: { __typename?: 'Author', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+
+export type ContactsQueryVariables = Exact<{
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+}>;
+
+
+export type ContactsQuery = { __typename?: 'Query', contact?: { __typename?: 'ContactEntityResponse', data?: { __typename?: 'ContactEntity', attributes?: { __typename?: 'Contact', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export type HomepageQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 }>;
 
 
-export type HomepageQuery = { __typename?: 'Query', homepage?: { __typename?: 'HomepageEntityResponse', data?: { __typename?: 'HomepageEntity', attributes?: { __typename?: 'Homepage', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle' } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsHeroOpener', id: string, title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, bg_media?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string } | null } | null } | null } | { __typename?: 'ComponentOrganismsTitleDescriptionButton' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type HomepageQuery = { __typename?: 'Query', homepage?: { __typename?: 'HomepageEntityResponse', data?: { __typename?: 'HomepageEntity', attributes?: { __typename?: 'Homepage', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle' } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsHeroOpener', id: string, componentName: string, title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, bg_media?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string } | null } | null } | null } | { __typename?: 'ComponentOrganismsTitleDescriptionButton' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export type MainNavigationQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
@@ -1705,15 +1718,24 @@ export type MainNavigationQueryVariables = Exact<{
 
 export type MainNavigationQuery = { __typename?: 'Query', renderNavigation: Array<{ __typename?: 'NavigationItem', id: number, path?: string | null, title: string, type: string, uiRouterKey: string, page_id?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null } | null> | null, parent?: { __typename?: 'NavigationItem', path?: string | null, id: number, title: string, type: string, uiRouterKey: string } | null } | null> | null } | null> };
 
+export type WhyQueryVariables = Exact<{
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+}>;
+
+
+export type WhyQuery = { __typename?: 'Query', why?: { __typename?: 'WhyEntityResponse', data?: { __typename?: 'WhyEntity', attributes?: { __typename?: 'Why', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'ComponentUtilsComponent' } | { __typename?: 'ComponentUtilsComponentsList' } | { __typename?: 'ComponentUtilsMetaRepeatableComponent' } | { __typename?: 'ComponentUtilsSeo' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+
 export const TitleFragmentDoc = `
     fragment title on ComponentAtomTitle {
   id
   text
+  componentName
 }
     `;
 export const HeroOpenerFragmentDoc = `
     fragment heroOpener on ComponentOrganismsHeroOpener {
   id
+  componentName
   title {
     text
   }
@@ -1858,6 +1880,33 @@ export const useAuthorQuery = <
       fetcher<AuthorQuery, AuthorQueryVariables>(client, AuthorDocument, variables, headers),
       options
     );
+export const ContactsDocument = `
+    query contacts($locale: I18NLocaleCode) {
+  contact(locale: $locale) {
+    data {
+      attributes {
+        components {
+          ...title
+        }
+      }
+    }
+  }
+}
+    ${TitleFragmentDoc}`;
+export const useContactsQuery = <
+      TData = ContactsQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: ContactsQueryVariables,
+      options?: UseQueryOptions<ContactsQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<ContactsQuery, TError, TData>(
+      variables === undefined ? ['contacts'] : ['contacts', variables],
+      fetcher<ContactsQuery, ContactsQueryVariables>(client, ContactsDocument, variables, headers),
+      options
+    );
 export const HomepageDocument = `
     query homepage($locale: I18NLocaleCode) {
   homepage(locale: $locale) {
@@ -1931,5 +1980,32 @@ export const useMainNavigationQuery = <
     useQuery<MainNavigationQuery, TError, TData>(
       variables === undefined ? ['mainNavigation'] : ['mainNavigation', variables],
       fetcher<MainNavigationQuery, MainNavigationQueryVariables>(client, MainNavigationDocument, variables, headers),
+      options
+    );
+export const WhyDocument = `
+    query why($locale: I18NLocaleCode) {
+  why(locale: $locale) {
+    data {
+      attributes {
+        components {
+          ...title
+        }
+      }
+    }
+  }
+}
+    ${TitleFragmentDoc}`;
+export const useWhyQuery = <
+      TData = WhyQuery,
+      TError = unknown
+    >(
+      client: GraphQLClient,
+      variables?: WhyQueryVariables,
+      options?: UseQueryOptions<WhyQuery, TError, TData>,
+      headers?: RequestInit['headers']
+    ) =>
+    useQuery<WhyQuery, TError, TData>(
+      variables === undefined ? ['why'] : ['why', variables],
+      fetcher<WhyQuery, WhyQueryVariables>(client, WhyDocument, variables, headers),
       options
     );

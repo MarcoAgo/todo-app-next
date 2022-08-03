@@ -1,12 +1,12 @@
 import { GetStaticPropsContext } from "next"
-import { AuthorDocument, HomepageDocument, I18NLocale, MainNavigationDocument, NavigationItem } from "../../graphql/generated/graphql-generated"
+import { AuthorDocument, ContactsDocument, HomepageDocument, I18NLocale, MainNavigationDocument, NavigationItem, WhyDocument } from "../../graphql/generated/graphql-generated"
 import { graphqlRequestClient } from "../../graphql/utils/graphql-client"
 
 export enum PagesEnum {
     HOMEPAGE = 'homepage',
     AUTHOR = 'author',
     WHY = 'why',
-    CONTACTS = 'contacts',
+    CONTACTS = 'contact',
     APP = 'app',
     APP_TODOS = 'app_todos',
     APP_CATEGORIES = 'app_categories',
@@ -15,8 +15,8 @@ export enum PagesEnum {
 const PagesQuery = {
     [PagesEnum.HOMEPAGE]: HomepageDocument,
     [PagesEnum.AUTHOR]: AuthorDocument,
-    [PagesEnum.WHY]: HomepageDocument,
-    [PagesEnum.CONTACTS]: HomepageDocument,
+    [PagesEnum.WHY]: WhyDocument,
+    [PagesEnum.CONTACTS]: ContactsDocument,
     [PagesEnum.APP]: HomepageDocument,
     [PagesEnum.APP_TODOS]: HomepageDocument,
     [PagesEnum.APP_CATEGORIES]: HomepageDocument,

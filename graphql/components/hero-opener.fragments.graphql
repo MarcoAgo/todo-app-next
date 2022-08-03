@@ -1,5 +1,6 @@
 fragment heroOpener on ComponentOrganismsHeroOpener {
   id
+  componentName
   title {
     text
   }

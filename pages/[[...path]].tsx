@@ -5,6 +5,8 @@ import { fetchNavigation } from "../utils/pages/fetch-navigation";
 import { pageQueryResolver } from "../utils/pages/page-data-resolver";
 import { I18NLocale } from "../graphql/generated/graphql-generated";
 import { graphqlRequestClient } from "../graphql/utils/graphql-client";
+import Controller from "../components/controller/Controller";
+import Header from "../components/organisms/header/Header";
 
 interface ICatchAllPageProps {
     dehydratedState: DehydratedState
@@ -14,12 +16,14 @@ interface ICatchAllPageProps {
 }
 
 const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
+    const { pageQuery, pageQueryName } = props
+
     return (
         <div>
             {/* ricordarsi di mettere la next head basata sui dati di pagina (og: tags e seo data) */}
-            <div className="header"></div>
+            <Header />
             <div className="container">
-                Component controller
+                <Controller pageQuery={pageQuery} pageQueryName={pageQueryName} />
             </div>
         </div>
     )

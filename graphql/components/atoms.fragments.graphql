@@ -1,4 +1,5 @@
 fragment title on ComponentAtomTitle {
   id
   text
+  componentName
 }

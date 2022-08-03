@@ -1,0 +1,1 @@
+export const BASE_UPLOADS_URL = process.env.NEXT_PUBLIC_BASE_UPLOADS_URL || 'http://localhost:1337'

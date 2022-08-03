@@ -240,11 +240,13 @@ type ComponentAtomText {
 input ComponentAtomTitleInput {
   id: ID
   text: String
+  componentName: String
 }
 
 type ComponentAtomTitle {
   id: ID!
   text: String!
+  componentName: String!
 }
 
 type ComponentOrganismsHeader {
@@ -262,6 +264,7 @@ type ComponentOrganismsHeroOpener {
   title: ComponentAtomTitle
   description: ComponentAtomText
   bg_media: UploadFileEntityResponse
+  componentName: String!
 }
 
 type ComponentOrganismsTitleDescriptionButton {
@@ -269,6 +272,7 @@ type ComponentOrganismsTitleDescriptionButton {
   title: ComponentAtomTitle
   description: ComponentAtomText
   cta: ComponentAtomButton
+  componentName: String!
 }
 
 input ComponentOrganismsTitleDescriptionImageInput {
@@ -277,6 +281,7 @@ input ComponentOrganismsTitleDescriptionImageInput {
   description: ComponentAtomTextInput
   image: ComponentAtomImageInput
   cta: ComponentAtomButtonInput
+  componentName: String
 }
 
 type ComponentOrganismsTitleDescriptionImage {
@@ -285,6 +290,7 @@ type ComponentOrganismsTitleDescriptionImage {
   description: ComponentAtomText
   image: ComponentAtomImage
   cta: ComponentAtomButton
+  componentName: String!
 }
 
 type ComponentTemplateDefaultPage {

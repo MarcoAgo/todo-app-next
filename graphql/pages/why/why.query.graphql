@@ -1,0 +1,11 @@
+query why($locale: I18NLocaleCode) {
+  why(locale: $locale) {
+    data {
+      attributes {
+        components {
+          ...title,
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+query contacts($locale: I18NLocaleCode) {
+  contact(locale: $locale) {
+    data {
+      attributes {
+        components {
+          ...title,
+        }
+      }
+    }
+  }
+}

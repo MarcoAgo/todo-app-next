@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useHomepageQuery } from "../graphql/generated/graphql-generated";
+import { useAuthorQuery, useHomepageQuery } from "../graphql/generated/graphql-generated";
 import { PagesEnum } from "../utils/pages/page-data-resolver";
 
 export const currentDocumentFactory = (key: string) => {
@@ -8,6 +8,9 @@ export const currentDocumentFactory = (key: string) => {
     switch (key) {
         case PagesEnum.HOMEPAGE:
             return useHomepageQuery
+
+        case PagesEnum.AUTHOR:
+            return useAuthorQuery
 
         default:
             return null
