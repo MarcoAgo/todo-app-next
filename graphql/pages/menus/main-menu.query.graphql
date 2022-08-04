@@ -5,6 +5,7 @@ query mainNavigation($locale: I18NLocaleCode) {
     title
     type
     uiRouterKey
+    visible
     page_id
     items {
       id

@@ -17,6 +17,8 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  AppLoginComponentsDynamicZoneInput: any;
+  AppRegistrationComponentsDynamicZoneInput: any;
   AuthorComponentsDynamicZoneInput: any;
   ContactComponentsDynamicZoneInput: any;
   DateTime: any;
@@ -28,28 +30,80 @@ export type Scalars = {
   WhyComponentsDynamicZoneInput: any;
 };
 
-export type App = {
-  __typename?: 'App';
+export type AppLogin = {
+  __typename?: 'AppLogin';
+  components: Array<Maybe<AppLoginComponentsDynamicZone>>;
   createdAt?: Maybe<Scalars['DateTime']>;
+  locale?: Maybe<Scalars['String']>;
+  localizations?: Maybe<AppLoginRelationResponseCollection>;
   publishedAt?: Maybe<Scalars['DateTime']>;
-  startButton?: Maybe<ComponentAtomButton>;
   updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
-export type AppEntity = {
-  __typename?: 'AppEntity';
-  attributes?: Maybe<App>;
+
+export type AppLoginLocalizationsArgs = {
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+export type AppLoginComponentsDynamicZone = ComponentUtilsComponentsList | Error;
+
+export type AppLoginEntity = {
+  __typename?: 'AppLoginEntity';
+  attributes?: Maybe<AppLogin>;
   id?: Maybe<Scalars['ID']>;
 };
 
-export type AppEntityResponse = {
-  __typename?: 'AppEntityResponse';
-  data?: Maybe<AppEntity>;
+export type AppLoginEntityResponse = {
+  __typename?: 'AppLoginEntityResponse';
+  data?: Maybe<AppLoginEntity>;
 };
 
-export type AppInput = {
+export type AppLoginInput = {
+  components?: InputMaybe<Array<Scalars['AppLoginComponentsDynamicZoneInput']>>;
   publishedAt?: InputMaybe<Scalars['DateTime']>;
-  startButton?: InputMaybe<ComponentAtomButtonInput>;
+};
+
+export type AppLoginRelationResponseCollection = {
+  __typename?: 'AppLoginRelationResponseCollection';
+  data: Array<AppLoginEntity>;
+};
+
+export type AppRegistration = {
+  __typename?: 'AppRegistration';
+  components: Array<Maybe<AppRegistrationComponentsDynamicZone>>;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  locale?: Maybe<Scalars['String']>;
+  localizations?: Maybe<AppRegistrationRelationResponseCollection>;
+  publishedAt?: Maybe<Scalars['DateTime']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+
+export type AppRegistrationLocalizationsArgs = {
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+export type AppRegistrationComponentsDynamicZone = ComponentOrganismsRegistrationForm | Error;
+
+export type AppRegistrationEntity = {
+  __typename?: 'AppRegistrationEntity';
+  attributes?: Maybe<AppRegistration>;
+  id?: Maybe<Scalars['ID']>;
+};
+
+export type AppRegistrationEntityResponse = {
+  __typename?: 'AppRegistrationEntityResponse';
+  data?: Maybe<AppRegistrationEntity>;
+};
+
+export type AppRegistrationInput = {
+  components?: InputMaybe<Array<Scalars['AppRegistrationComponentsDynamicZoneInput']>>;
+  publishedAt?: InputMaybe<Scalars['DateTime']>;
+};
+
+export type AppRegistrationRelationResponseCollection = {
+  __typename?: 'AppRegistrationRelationResponseCollection';
+  data: Array<AppRegistrationEntity>;
 };
 
 export type AppTodo = {
@@ -91,7 +145,7 @@ export type AuthorLocalizationsArgs = {
   publicationState?: InputMaybe<PublicationState>;
 };
 
-export type AuthorComponentsDynamicZone = ComponentAtomButton | ComponentAtomImage | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsTitleDescriptionImage | ComponentTemplateDefaultPage | Error;
+export type AuthorComponentsDynamicZone = ComponentAtomButton | ComponentAtomImage | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsTitleDescriptionImage | Error;
 
 export type AuthorEntity = {
   __typename?: 'AuthorEntity';
@@ -121,6 +175,7 @@ export type BooleanFilterInput = {
   containsi?: InputMaybe<Scalars['Boolean']>;
   endsWith?: InputMaybe<Scalars['Boolean']>;
   eq?: InputMaybe<Scalars['Boolean']>;
+  eqi?: InputMaybe<Scalars['Boolean']>;
   gt?: InputMaybe<Scalars['Boolean']>;
   gte?: InputMaybe<Scalars['Boolean']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['Boolean']>>>;
@@ -223,6 +278,23 @@ export type ComponentAtomImageInput = {
   media_image?: InputMaybe<Scalars['ID']>;
 };
 
+export type ComponentAtomInput = {
+  __typename?: 'ComponentAtomInput';
+  id: Scalars['ID'];
+  label: Scalars['String'];
+  placeholder: Scalars['String'];
+  type?: Maybe<Scalars['String']>;
+};
+
+export type ComponentAtomInputFiltersInput = {
+  and?: InputMaybe<Array<InputMaybe<ComponentAtomInputFiltersInput>>>;
+  label?: InputMaybe<StringFilterInput>;
+  not?: InputMaybe<ComponentAtomInputFiltersInput>;
+  or?: InputMaybe<Array<InputMaybe<ComponentAtomInputFiltersInput>>>;
+  placeholder?: InputMaybe<StringFilterInput>;
+  type?: InputMaybe<StringFilterInput>;
+};
+
 export type ComponentAtomLink = {
   __typename?: 'ComponentAtomLink';
   id: Scalars['ID'];
@@ -282,6 +354,23 @@ export type ComponentOrganismsHeroOpener = {
   title: ComponentAtomTitle;
 };
 
+export type ComponentOrganismsRegistrationForm = {
+  __typename?: 'ComponentOrganismsRegistrationForm';
+  alreadyRegistered?: Maybe<ComponentAtomLink>;
+  id: Scalars['ID'];
+  input: Array<Maybe<ComponentAtomInput>>;
+  submit?: Maybe<ComponentAtomButton>;
+  subtitle?: Maybe<ComponentAtomText>;
+  title: ComponentAtomTitle;
+};
+
+
+export type ComponentOrganismsRegistrationFormInputArgs = {
+  filters?: InputMaybe<ComponentAtomInputFiltersInput>;
+  pagination?: InputMaybe<PaginationArg>;
+  sort?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
+};
+
 export type ComponentOrganismsTitleDescriptionButton = {
   __typename?: 'ComponentOrganismsTitleDescriptionButton';
   componentName: Scalars['String'];
@@ -306,13 +395,6 @@ export type ComponentOrganismsTitleDescriptionImageInput = {
   id?: InputMaybe<Scalars['ID']>;
   image?: InputMaybe<ComponentAtomImageInput>;
   title?: InputMaybe<ComponentAtomTitleInput>;
-};
-
-export type ComponentTemplateDefaultPage = {
-  __typename?: 'ComponentTemplateDefaultPage';
-  id: Scalars['ID'];
-  meta?: Maybe<ComponentUtilsMetaRepeatableComponent>;
-  seo: ComponentUtilsSeo;
 };
 
 export type ComponentUtilsComponent = {
@@ -359,7 +441,7 @@ export type ContactLocalizationsArgs = {
   publicationState?: InputMaybe<PublicationState>;
 };
 
-export type ContactComponentsDynamicZone = ComponentAtomButton | ComponentAtomImage | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsTitleDescriptionImage | ComponentTemplateDefaultPage | Error;
+export type ContactComponentsDynamicZone = ComponentAtomButton | ComponentAtomImage | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsTitleDescriptionImage | Error;
 
 export type ContactEntity = {
   __typename?: 'ContactEntity';
@@ -389,6 +471,7 @@ export type DateTimeFilterInput = {
   containsi?: InputMaybe<Scalars['DateTime']>;
   endsWith?: InputMaybe<Scalars['DateTime']>;
   eq?: InputMaybe<Scalars['DateTime']>;
+  eqi?: InputMaybe<Scalars['DateTime']>;
   gt?: InputMaybe<Scalars['DateTime']>;
   gte?: InputMaybe<Scalars['DateTime']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['DateTime']>>>;
@@ -436,6 +519,7 @@ export type FloatFilterInput = {
   containsi?: InputMaybe<Scalars['Float']>;
   endsWith?: InputMaybe<Scalars['Float']>;
   eq?: InputMaybe<Scalars['Float']>;
+  eqi?: InputMaybe<Scalars['Float']>;
   gt?: InputMaybe<Scalars['Float']>;
   gte?: InputMaybe<Scalars['Float']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['Float']>>>;
@@ -452,7 +536,7 @@ export type FloatFilterInput = {
   startsWith?: InputMaybe<Scalars['Float']>;
 };
 
-export type GenericMorph = App | AppTodo | Author | Category | ComponentAtomButton | ComponentAtomImage | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsHeroOpener | ComponentOrganismsTitleDescriptionButton | ComponentOrganismsTitleDescriptionImage | ComponentTemplateDefaultPage | ComponentUtilsComponent | ComponentUtilsComponentsList | ComponentUtilsMetaRepeatableComponent | ComponentUtilsSeo | Contact | Homepage | I18NLocale | MenusMenu | MenusMenuItem | Todo | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Why;
+export type GenericMorph = AppLogin | AppRegistration | AppTodo | Author | Category | ComponentAtomButton | ComponentAtomImage | ComponentAtomInput | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsHeroOpener | ComponentOrganismsRegistrationForm | ComponentOrganismsTitleDescriptionButton | ComponentOrganismsTitleDescriptionImage | ComponentUtilsComponent | ComponentUtilsComponentsList | ComponentUtilsMetaRepeatableComponent | ComponentUtilsSeo | Contact | Homepage | I18NLocale | MenusMenu | MenusMenuItem | Todo | UploadFile | UsersPermissionsPermission | UsersPermissionsRole | UsersPermissionsUser | Why;
 
 export type Homepage = {
   __typename?: 'Homepage';
@@ -539,6 +623,7 @@ export type IdFilterInput = {
   containsi?: InputMaybe<Scalars['ID']>;
   endsWith?: InputMaybe<Scalars['ID']>;
   eq?: InputMaybe<Scalars['ID']>;
+  eqi?: InputMaybe<Scalars['ID']>;
   gt?: InputMaybe<Scalars['ID']>;
   gte?: InputMaybe<Scalars['ID']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['ID']>>>;
@@ -562,6 +647,7 @@ export type IntFilterInput = {
   containsi?: InputMaybe<Scalars['Int']>;
   endsWith?: InputMaybe<Scalars['Int']>;
   eq?: InputMaybe<Scalars['Int']>;
+  eqi?: InputMaybe<Scalars['Int']>;
   gt?: InputMaybe<Scalars['Int']>;
   gte?: InputMaybe<Scalars['Int']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['Int']>>>;
@@ -585,6 +671,7 @@ export type JsonFilterInput = {
   containsi?: InputMaybe<Scalars['JSON']>;
   endsWith?: InputMaybe<Scalars['JSON']>;
   eq?: InputMaybe<Scalars['JSON']>;
+  eqi?: InputMaybe<Scalars['JSON']>;
   gt?: InputMaybe<Scalars['JSON']>;
   gte?: InputMaybe<Scalars['JSON']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['JSON']>>>;
@@ -712,6 +799,8 @@ export type MenusMenuItemRelationResponseCollection = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  createAppLoginLocalization?: Maybe<AppLoginEntityResponse>;
+  createAppRegistrationLocalization?: Maybe<AppRegistrationEntityResponse>;
   createAuthorLocalization?: Maybe<AuthorEntityResponse>;
   createCategory?: Maybe<CategoryEntityResponse>;
   createContactLocalization?: Maybe<ContactEntityResponse>;
@@ -723,7 +812,8 @@ export type Mutation = {
   createUsersPermissionsRole?: Maybe<UsersPermissionsCreateRolePayload>;
   createUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   createWhyLocalization?: Maybe<WhyEntityResponse>;
-  deleteApp?: Maybe<AppEntityResponse>;
+  deleteAppLogin?: Maybe<AppLoginEntityResponse>;
+  deleteAppRegistration?: Maybe<AppRegistrationEntityResponse>;
   deleteAppTodo?: Maybe<AppTodoEntityResponse>;
   deleteAuthor?: Maybe<AuthorEntityResponse>;
   deleteCategory?: Maybe<CategoryEntityResponse>;
@@ -743,7 +833,8 @@ export type Mutation = {
   register: UsersPermissionsLoginPayload;
   removeFile?: Maybe<UploadFileEntityResponse>;
   resetPassword?: Maybe<UsersPermissionsLoginPayload>;
-  updateApp?: Maybe<AppEntityResponse>;
+  updateAppLogin?: Maybe<AppLoginEntityResponse>;
+  updateAppRegistration?: Maybe<AppRegistrationEntityResponse>;
   updateAppTodo?: Maybe<AppTodoEntityResponse>;
   updateAuthor?: Maybe<AuthorEntityResponse>;
   updateCategory?: Maybe<CategoryEntityResponse>;
@@ -758,6 +849,20 @@ export type Mutation = {
   updateUsersPermissionsUser: UsersPermissionsUserEntityResponse;
   updateWhy?: Maybe<WhyEntityResponse>;
   upload: UploadFileEntityResponse;
+};
+
+
+export type MutationCreateAppLoginLocalizationArgs = {
+  data?: InputMaybe<AppLoginInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+};
+
+
+export type MutationCreateAppRegistrationLocalizationArgs = {
+  data?: InputMaybe<AppRegistrationInput>;
+  id?: InputMaybe<Scalars['ID']>;
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
 
 
@@ -820,6 +925,16 @@ export type MutationCreateUsersPermissionsUserArgs = {
 export type MutationCreateWhyLocalizationArgs = {
   data?: InputMaybe<WhyInput>;
   id?: InputMaybe<Scalars['ID']>;
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+};
+
+
+export type MutationDeleteAppLoginArgs = {
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+};
+
+
+export type MutationDeleteAppRegistrationArgs = {
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
 
@@ -919,8 +1034,15 @@ export type MutationResetPasswordArgs = {
 };
 
 
-export type MutationUpdateAppArgs = {
-  data: AppInput;
+export type MutationUpdateAppLoginArgs = {
+  data: AppLoginInput;
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+};
+
+
+export type MutationUpdateAppRegistrationArgs = {
+  data: AppRegistrationInput;
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 };
 
 
@@ -1033,9 +1155,10 @@ export type NavigationItem = {
   updatedBy?: Maybe<Scalars['String']>;
   updated_at?: Maybe<Scalars['String']>;
   updated_by?: Maybe<Scalars['String']>;
+  visible?: Maybe<Scalars['Boolean']>;
 };
 
-export type NavigationItemRelated = App | AppTodo | Author | Contact | Homepage | Why;
+export type NavigationItemRelated = AppLogin | AppRegistration | AppTodo | Author | Contact | Homepage | Why;
 
 export type NavigationItemRelatedData = {
   __typename?: 'NavigationItemRelatedData';
@@ -1071,7 +1194,8 @@ export enum PublicationState {
 
 export type Query = {
   __typename?: 'Query';
-  app?: Maybe<AppEntityResponse>;
+  appLogin?: Maybe<AppLoginEntityResponse>;
+  appRegistration?: Maybe<AppRegistrationEntityResponse>;
   appTodo?: Maybe<AppTodoEntityResponse>;
   author?: Maybe<AuthorEntityResponse>;
   categories?: Maybe<CategoryEntityResponseCollection>;
@@ -1099,7 +1223,14 @@ export type Query = {
 };
 
 
-export type QueryAppArgs = {
+export type QueryAppLoginArgs = {
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+  publicationState?: InputMaybe<PublicationState>;
+};
+
+
+export type QueryAppRegistrationArgs = {
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
   publicationState?: InputMaybe<PublicationState>;
 };
 
@@ -1259,6 +1390,7 @@ export type StringFilterInput = {
   containsi?: InputMaybe<Scalars['String']>;
   endsWith?: InputMaybe<Scalars['String']>;
   eq?: InputMaybe<Scalars['String']>;
+  eqi?: InputMaybe<Scalars['String']>;
   gt?: InputMaybe<Scalars['String']>;
   gte?: InputMaybe<Scalars['String']>;
   in?: InputMaybe<Array<InputMaybe<Scalars['String']>>>;
@@ -1569,10 +1701,13 @@ export type UsersPermissionsUser = {
   confirmed?: Maybe<Scalars['Boolean']>;
   createdAt?: Maybe<Scalars['DateTime']>;
   email: Scalars['String'];
+  name: Scalars['String'];
   provider?: Maybe<Scalars['String']>;
   role?: Maybe<UsersPermissionsRoleEntityResponse>;
+  surname: Scalars['String'];
   updatedAt?: Maybe<Scalars['DateTime']>;
   username: Scalars['String'];
+  uuid: Scalars['String'];
 };
 
 export type UsersPermissionsUserEntity = {
@@ -1600,14 +1735,17 @@ export type UsersPermissionsUserFiltersInput = {
   createdAt?: InputMaybe<DateTimeFilterInput>;
   email?: InputMaybe<StringFilterInput>;
   id?: InputMaybe<IdFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<UsersPermissionsUserFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<UsersPermissionsUserFiltersInput>>>;
   password?: InputMaybe<StringFilterInput>;
   provider?: InputMaybe<StringFilterInput>;
   resetPasswordToken?: InputMaybe<StringFilterInput>;
   role?: InputMaybe<UsersPermissionsRoleFiltersInput>;
+  surname?: InputMaybe<StringFilterInput>;
   updatedAt?: InputMaybe<DateTimeFilterInput>;
   username?: InputMaybe<StringFilterInput>;
+  uuid?: InputMaybe<StringFilterInput>;
 };
 
 export type UsersPermissionsUserInput = {
@@ -1615,11 +1753,14 @@ export type UsersPermissionsUserInput = {
   confirmationToken?: InputMaybe<Scalars['String']>;
   confirmed?: InputMaybe<Scalars['Boolean']>;
   email?: InputMaybe<Scalars['String']>;
+  name?: InputMaybe<Scalars['String']>;
   password?: InputMaybe<Scalars['String']>;
   provider?: InputMaybe<Scalars['String']>;
   resetPasswordToken?: InputMaybe<Scalars['String']>;
   role?: InputMaybe<Scalars['ID']>;
+  surname?: InputMaybe<Scalars['String']>;
   username?: InputMaybe<Scalars['String']>;
+  uuid?: InputMaybe<Scalars['String']>;
 };
 
 export type UsersPermissionsUserRelationResponseCollection = {
@@ -1642,7 +1783,7 @@ export type WhyLocalizationsArgs = {
   publicationState?: InputMaybe<PublicationState>;
 };
 
-export type WhyComponentsDynamicZone = ComponentAtomButton | ComponentAtomImage | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsTitleDescriptionImage | ComponentTemplateDefaultPage | ComponentUtilsComponent | ComponentUtilsComponentsList | ComponentUtilsMetaRepeatableComponent | ComponentUtilsSeo | Error;
+export type WhyComponentsDynamicZone = ComponentAtomButton | ComponentAtomImage | ComponentAtomLink | ComponentAtomText | ComponentAtomTitle | ComponentOrganismsHeader | ComponentOrganismsTitleDescriptionImage | ComponentUtilsComponent | ComponentUtilsComponentsList | ComponentUtilsMetaRepeatableComponent | ComponentUtilsSeo | Error;
 
 export type WhyEntity = {
   __typename?: 'WhyEntity';
@@ -1674,31 +1815,30 @@ export type TitleFragment = { __typename: 'ComponentAtomTitle', id: string, text
 
 export type HeroOpenerFragment = { __typename: 'ComponentOrganismsHeroOpener', id: string, title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, bg_media: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } };
 
+export type RegistrationFormFragment = { __typename: 'ComponentOrganismsRegistrationForm', title: { __typename?: 'ComponentAtomTitle', text: string }, subtitle?: { __typename?: 'ComponentAtomText', text: string } | null, input: Array<{ __typename?: 'ComponentAtomInput', type?: string | null, label: string, placeholder: string } | null>, submit?: { __typename?: 'ComponentAtomButton', label: string } | null, alreadyRegistered?: { __typename?: 'ComponentAtomLink', url: string, label: string } | null };
+
 export type TitleDescriptionImageFragment = { __typename: 'ComponentOrganismsTitleDescriptionImage', title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, image: { __typename?: 'ComponentAtomImage', media_image: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } }, cta: { __typename?: 'ComponentAtomButton', label: string, url?: string | null } };
 
-export type AppQueryVariables = Exact<{ [key: string]: never; }>;
+export type AppRegistrationQueryVariables = Exact<{
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+}>;
 
 
-export type AppQuery = { __typename?: 'Query', app?: { __typename?: 'AppEntityResponse', data?: { __typename?: 'AppEntity', id?: string | null, attributes?: { __typename?: 'App', startButton?: { __typename?: 'ComponentAtomButton', label: string } | null } | null } | null } | null };
-
-export type AppTodoQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type AppTodoQuery = { __typename?: 'Query', appTodo?: { __typename?: 'AppTodoEntityResponse', data?: { __typename?: 'AppTodoEntity', id?: string | null, attributes?: { __typename?: 'AppTodo', Intro?: { __typename?: 'ComponentOrganismsTitleDescriptionImage', title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string } } | null } | null } | null } | null };
+export type AppRegistrationQuery = { __typename?: 'Query', appRegistration?: { __typename?: 'AppRegistrationEntityResponse', data?: { __typename?: 'AppRegistrationEntity', attributes?: { __typename?: 'AppRegistration', components: Array<{ __typename: 'ComponentOrganismsRegistrationForm', title: { __typename?: 'ComponentAtomTitle', text: string }, subtitle?: { __typename?: 'ComponentAtomText', text: string } | null, input: Array<{ __typename?: 'ComponentAtomInput', type?: string | null, label: string, placeholder: string } | null>, submit?: { __typename?: 'ComponentAtomButton', label: string } | null, alreadyRegistered?: { __typename?: 'ComponentAtomLink', url: string, label: string } | null } | { __typename?: 'Error' } | null> } | null } | null } | null };
 
 export type AuthorQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 }>;
 
 
-export type AuthorQuery = { __typename?: 'Query', author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', attributes?: { __typename?: 'Author', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type AuthorQuery = { __typename?: 'Query', author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', attributes?: { __typename?: 'Author', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export type ContactsQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 }>;
 
 
-export type ContactsQuery = { __typename?: 'Query', contact?: { __typename?: 'ContactEntityResponse', data?: { __typename?: 'ContactEntity', attributes?: { __typename?: 'Contact', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type ContactsQuery = { __typename?: 'Query', contact?: { __typename?: 'ContactEntityResponse', data?: { __typename?: 'ContactEntity', attributes?: { __typename?: 'Contact', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export type HomepageQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
@@ -1712,7 +1852,7 @@ export type MainNavigationQueryVariables = Exact<{
 }>;
 
 
-export type MainNavigationQuery = { __typename?: 'Query', renderNavigation: Array<{ __typename?: 'NavigationItem', id: number, path?: string | null, title: string, type: string, uiRouterKey: string, page_id?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null } | null> | null, parent?: { __typename?: 'NavigationItem', path?: string | null, id: number, title: string, type: string, uiRouterKey: string } | null } | null> | null } | null> };
+export type MainNavigationQuery = { __typename?: 'Query', renderNavigation: Array<{ __typename?: 'NavigationItem', id: number, path?: string | null, title: string, type: string, uiRouterKey: string, visible?: boolean | null, page_id?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null } | null> | null, parent?: { __typename?: 'NavigationItem', path?: string | null, id: number, title: string, type: string, uiRouterKey: string } | null } | null> | null } | null> };
 
 export type GetCurrentNavigationItemQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
@@ -1727,7 +1867,7 @@ export type WhyQueryVariables = Exact<{
 }>;
 
 
-export type WhyQuery = { __typename?: 'Query', why?: { __typename?: 'WhyEntityResponse', data?: { __typename?: 'WhyEntity', attributes?: { __typename?: 'Why', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'ComponentUtilsComponent' } | { __typename?: 'ComponentUtilsComponentsList' } | { __typename?: 'ComponentUtilsMetaRepeatableComponent' } | { __typename?: 'ComponentUtilsSeo' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type WhyQuery = { __typename?: 'Query', why?: { __typename?: 'WhyEntityResponse', data?: { __typename?: 'WhyEntity', attributes?: { __typename?: 'Why', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentUtilsComponent' } | { __typename?: 'ComponentUtilsComponentsList' } | { __typename?: 'ComponentUtilsMetaRepeatableComponent' } | { __typename?: 'ComponentUtilsSeo' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export const TitleFragmentDoc = `
     fragment title on ComponentAtomTitle {
@@ -1759,6 +1899,29 @@ export const HeroOpenerFragmentDoc = `
         width
       }
     }
+  }
+}
+    `;
+export const RegistrationFormFragmentDoc = `
+    fragment registrationForm on ComponentOrganismsRegistrationForm {
+  __typename
+  title {
+    text
+  }
+  subtitle {
+    text
+  }
+  input {
+    type
+    label
+    placeholder
+  }
+  submit {
+    label
+  }
+  alreadyRegistered {
+    url
+    label
   }
 }
     `;
@@ -1829,65 +1992,31 @@ export const useGetCategoriesQuery = <
             fetcher<GetCategoriesQuery, GetCategoriesQueryVariables>(client, GetCategoriesDocument, variables, headers),
             options
         );
-export const AppDocument = `
-    query app {
-  app {
+export const AppRegistrationDocument = `
+    query appRegistration($locale: I18NLocaleCode) {
+  appRegistration(locale: $locale) {
     data {
-      id
       attributes {
-        startButton {
-          label
+        components {
+          ...registrationForm
         }
       }
     }
   }
 }
-    `;
-export const useAppQuery = <
-      TData = AppQuery,
+    ${RegistrationFormFragmentDoc}`;
+export const useAppRegistrationQuery = <
+      TData = AppRegistrationQuery,
       TError = unknown
     >(
         client: GraphQLClient,
-        variables?: AppQueryVariables,
-        options?: UseQueryOptions<AppQuery, TError, TData>,
+        variables?: AppRegistrationQueryVariables,
+        options?: UseQueryOptions<AppRegistrationQuery, TError, TData>,
         headers?: RequestInit['headers']
     ) =>
-        useQuery<AppQuery, TError, TData>(
-            variables === undefined ? ['app'] : ['app', variables],
-            fetcher<AppQuery, AppQueryVariables>(client, AppDocument, variables, headers),
-            options
-        );
-export const AppTodoDocument = `
-    query appTodo {
-  appTodo {
-    data {
-      id
-      attributes {
-        Intro {
-          title {
-            text
-          }
-          description {
-            text
-          }
-        }
-      }
-    }
-  }
-}
-    `;
-export const useAppTodoQuery = <
-      TData = AppTodoQuery,
-      TError = unknown
-    >(
-        client: GraphQLClient,
-        variables?: AppTodoQueryVariables,
-        options?: UseQueryOptions<AppTodoQuery, TError, TData>,
-        headers?: RequestInit['headers']
-    ) =>
-        useQuery<AppTodoQuery, TError, TData>(
-            variables === undefined ? ['appTodo'] : ['appTodo', variables],
-            fetcher<AppTodoQuery, AppTodoQueryVariables>(client, AppTodoDocument, variables, headers),
+        useQuery<AppRegistrationQuery, TError, TData>(
+            variables === undefined ? ['appRegistration'] : ['appRegistration', variables],
+            fetcher<AppRegistrationQuery, AppRegistrationQueryVariables>(client, AppRegistrationDocument, variables, headers),
             options
         );
 export const AuthorDocument = `
@@ -1985,6 +2114,7 @@ export const MainNavigationDocument = `
     title
     type
     uiRouterKey
+    visible
     page_id
     items {
       id

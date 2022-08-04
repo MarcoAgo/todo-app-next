@@ -33,6 +33,7 @@ input IDFilterInput {
   or: [ID]
   not: IDFilterInput
   eq: ID
+  eqi: ID
   ne: ID
   startsWith: ID
   endsWith: ID
@@ -56,6 +57,7 @@ input BooleanFilterInput {
   or: [Boolean]
   not: BooleanFilterInput
   eq: Boolean
+  eqi: Boolean
   ne: Boolean
   startsWith: Boolean
   endsWith: Boolean
@@ -79,6 +81,7 @@ input StringFilterInput {
   or: [String]
   not: StringFilterInput
   eq: String
+  eqi: String
   ne: String
   startsWith: String
   endsWith: String
@@ -102,6 +105,7 @@ input IntFilterInput {
   or: [Int]
   not: IntFilterInput
   eq: Int
+  eqi: Int
   ne: Int
   startsWith: Int
   endsWith: Int
@@ -125,6 +129,7 @@ input FloatFilterInput {
   or: [Float]
   not: FloatFilterInput
   eq: Float
+  eqi: Float
   ne: Float
   startsWith: Float
   endsWith: Float
@@ -148,6 +153,7 @@ input DateTimeFilterInput {
   or: [DateTime]
   not: DateTimeFilterInput
   eq: DateTime
+  eqi: DateTime
   ne: DateTime
   startsWith: DateTime
   endsWith: DateTime
@@ -171,6 +177,7 @@ input JSONFilterInput {
   or: [JSON]
   not: JSONFilterInput
   eq: JSON
+  eqi: JSON
   ne: JSON
   startsWith: JSON
   endsWith: JSON
@@ -211,6 +218,22 @@ input ComponentAtomImageInput {
 type ComponentAtomImage {
   id: ID!
   media_image: UploadFileEntityResponse!
+}
+
+input ComponentAtomInputFiltersInput {
+  type: StringFilterInput
+  label: StringFilterInput
+  placeholder: StringFilterInput
+  and: [ComponentAtomInputFiltersInput]
+  or: [ComponentAtomInputFiltersInput]
+  not: ComponentAtomInputFiltersInput
+}
+
+type ComponentAtomInput {
+  id: ID!
+  type: String
+  label: String!
+  placeholder: String!
 }
 
 input ComponentAtomLinkFiltersInput {
@@ -264,6 +287,19 @@ type ComponentOrganismsHeroOpener {
   bg_media: UploadFileEntityResponse!
 }
 
+type ComponentOrganismsRegistrationForm {
+  id: ID!
+  input(
+    filters: ComponentAtomInputFiltersInput
+    pagination: PaginationArg = {}
+    sort: [String] = []
+  ): [ComponentAtomInput]!
+  submit: ComponentAtomButton
+  title: ComponentAtomTitle!
+  subtitle: ComponentAtomText
+  alreadyRegistered: ComponentAtomLink
+}
+
 type ComponentOrganismsTitleDescriptionButton {
   id: ID!
   title: ComponentAtomTitle
@@ -286,12 +322,6 @@ type ComponentOrganismsTitleDescriptionImage {
   description: ComponentAtomText!
   image: ComponentAtomImage!
   cta: ComponentAtomButton!
-}
-
-type ComponentTemplateDefaultPage {
-  id: ID!
-  seo: ComponentUtilsSeo!
-  meta: ComponentUtilsMetaRepeatableComponent
 }
 
 type ComponentUtilsComponent {
@@ -522,6 +552,9 @@ input UsersPermissionsUserFiltersInput {
   confirmed: BooleanFilterInput
   blocked: BooleanFilterInput
   role: UsersPermissionsRoleFiltersInput
+  uuid: StringFilterInput
+  name: StringFilterInput
+  surname: StringFilterInput
   createdAt: DateTimeFilterInput
   updatedAt: DateTimeFilterInput
   and: [UsersPermissionsUserFiltersInput]
@@ -539,6 +572,9 @@ input UsersPermissionsUserInput {
   confirmed: Boolean
   blocked: Boolean
   role: ID
+  uuid: String
+  name: String
+  surname: String
 }
 
 type UsersPermissionsUser {
@@ -548,6 +584,9 @@ type UsersPermissionsUser {
   confirmed: Boolean
   blocked: Boolean
   role: UsersPermissionsRoleEntityResponse
+  uuid: String!
+  name: String!
+  surname: String!
   createdAt: DateTime
   updatedAt: DateTime
 }
@@ -674,25 +713,72 @@ type MenusMenuItemRelationResponseCollection {
   data: [MenusMenuItemEntity!]!
 }
 
-input AppInput {
-  startButton: ComponentAtomButtonInput
+union AppLoginComponentsDynamicZone = ComponentUtilsComponentsList | Error
+
+scalar AppLoginComponentsDynamicZoneInput
+
+input AppLoginInput {
+  components: [AppLoginComponentsDynamicZoneInput!]
   publishedAt: DateTime
 }
 
-type App {
-  startButton: ComponentAtomButton
+type AppLogin {
+  components: [AppLoginComponentsDynamicZone]!
   createdAt: DateTime
   updatedAt: DateTime
   publishedAt: DateTime
+  localizations(
+    publicationState: PublicationState = LIVE
+  ): AppLoginRelationResponseCollection
+  locale: String
 }
 
-type AppEntity {
+type AppLoginEntity {
   id: ID
-  attributes: App
+  attributes: AppLogin
 }
 
-type AppEntityResponse {
-  data: AppEntity
+type AppLoginEntityResponse {
+  data: AppLoginEntity
+}
+
+type AppLoginRelationResponseCollection {
+  data: [AppLoginEntity!]!
+}
+
+union AppRegistrationComponentsDynamicZone =
+  ComponentOrganismsRegistrationForm
+  | Error
+
+scalar AppRegistrationComponentsDynamicZoneInput
+
+input AppRegistrationInput {
+  components: [AppRegistrationComponentsDynamicZoneInput!]
+  publishedAt: DateTime
+}
+
+type AppRegistration {
+  components: [AppRegistrationComponentsDynamicZone]!
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime
+  localizations(
+    publicationState: PublicationState = LIVE
+  ): AppRegistrationRelationResponseCollection
+  locale: String
+}
+
+type AppRegistrationEntity {
+  id: ID
+  attributes: AppRegistration
+}
+
+type AppRegistrationEntityResponse {
+  data: AppRegistrationEntity
+}
+
+type AppRegistrationRelationResponseCollection {
+  data: [AppRegistrationEntity!]!
 }
 
 input AppTodoInput {
@@ -724,7 +810,6 @@ union AuthorComponentsDynamicZone =
   | ComponentAtomTitle
   | ComponentOrganismsHeader
   | ComponentOrganismsTitleDescriptionImage
-  | ComponentTemplateDefaultPage
   | Error
 
 scalar AuthorComponentsDynamicZoneInput
@@ -818,7 +903,6 @@ union ContactComponentsDynamicZone =
   | ComponentAtomTitle
   | ComponentOrganismsHeader
   | ComponentOrganismsTitleDescriptionImage
-  | ComponentTemplateDefaultPage
   | Error
 
 scalar ContactComponentsDynamicZoneInput
@@ -959,7 +1043,6 @@ union WhyComponentsDynamicZone =
   | ComponentAtomLink
   | ComponentAtomText
   | ComponentAtomTitle
-  | ComponentTemplateDefaultPage
   | ComponentOrganismsHeader
   | ComponentOrganismsTitleDescriptionImage
   | ComponentUtilsComponent
@@ -1002,14 +1085,15 @@ type WhyRelationResponseCollection {
 union GenericMorph =
   ComponentAtomButton
   | ComponentAtomImage
+  | ComponentAtomInput
   | ComponentAtomLink
   | ComponentAtomText
   | ComponentAtomTitle
   | ComponentOrganismsHeader
   | ComponentOrganismsHeroOpener
+  | ComponentOrganismsRegistrationForm
   | ComponentOrganismsTitleDescriptionButton
   | ComponentOrganismsTitleDescriptionImage
-  | ComponentTemplateDefaultPage
   | ComponentUtilsComponent
   | ComponentUtilsComponentsList
   | ComponentUtilsMetaRepeatableComponent
@@ -1021,7 +1105,8 @@ union GenericMorph =
   | UsersPermissionsUser
   | MenusMenu
   | MenusMenuItem
-  | App
+  | AppLogin
+  | AppRegistration
   | AppTodo
   | Author
   | Category
@@ -1088,7 +1173,14 @@ type UsersPermissionsDeleteRolePayload {
   ok: Boolean!
 }
 
-union NavigationItemRelated = Homepage | AppTodo | App | Author | Contact | Why
+union NavigationItemRelated =
+  Homepage
+  | AppTodo
+  | Author
+  | Contact
+  | Why
+  | AppRegistration
+  | AppLogin
 
 type NavigationItemRelatedData {
   id: Int!
@@ -1118,6 +1210,7 @@ type NavigationItem {
   updatedBy: String
   audience: [String]
   page_id: String
+  visible: Boolean
 }
 
 enum NavigationRenderType {
@@ -1170,7 +1263,14 @@ type Query {
     pagination: PaginationArg = {}
     sort: [String] = []
   ): MenusMenuItemEntityResponseCollection
-  app(publicationState: PublicationState = LIVE): AppEntityResponse
+  appLogin(
+    publicationState: PublicationState = LIVE
+    locale: I18NLocaleCode
+  ): AppLoginEntityResponse
+  appRegistration(
+    publicationState: PublicationState = LIVE
+    locale: I18NLocaleCode
+  ): AppRegistrationEntityResponse
   appTodo(publicationState: PublicationState = LIVE): AppTodoEntityResponse
   author(
     publicationState: PublicationState = LIVE
@@ -1231,8 +1331,16 @@ type Mutation {
     data: MenusMenuItemInput!
   ): MenusMenuItemEntityResponse
   deleteMenusMenuItem(id: ID!): MenusMenuItemEntityResponse
-  updateApp(data: AppInput!): AppEntityResponse
-  deleteApp: AppEntityResponse
+  updateAppLogin(
+    data: AppLoginInput!
+    locale: I18NLocaleCode
+  ): AppLoginEntityResponse
+  deleteAppLogin(locale: I18NLocaleCode): AppLoginEntityResponse
+  updateAppRegistration(
+    data: AppRegistrationInput!
+    locale: I18NLocaleCode
+  ): AppRegistrationEntityResponse
+  deleteAppRegistration(locale: I18NLocaleCode): AppRegistrationEntityResponse
   updateAppTodo(data: AppTodoInput!): AppTodoEntityResponse
   deleteAppTodo: AppTodoEntityResponse
   updateAuthor(data: AuthorInput!, locale: I18NLocaleCode): AuthorEntityResponse
@@ -1270,6 +1378,16 @@ type Mutation {
   ): [UploadFileEntityResponse]!
   updateFileInfo(id: ID!, info: FileInfoInput): UploadFileEntityResponse!
   removeFile(id: ID!): UploadFileEntityResponse
+  createAppLoginLocalization(
+    id: ID
+    data: AppLoginInput
+    locale: I18NLocaleCode
+  ): AppLoginEntityResponse
+  createAppRegistrationLocalization(
+    id: ID
+    data: AppRegistrationInput
+    locale: I18NLocaleCode
+  ): AppRegistrationEntityResponse
   createAuthorLocalization(
     id: ID
     data: AuthorInput

@@ -19,6 +19,7 @@ const Header: FC = (): JSX.Element => {
     }, [push])
 
     const renderLink = (link: NavigationItem) => {
+        if (!link.visible) return null
         return (
             <div key={link.title}>
                 <LinkAtom

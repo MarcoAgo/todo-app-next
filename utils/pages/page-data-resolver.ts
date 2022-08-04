@@ -1,5 +1,6 @@
 import { GetStaticPropsContext } from "next"
 import {
+    AppRegistrationDocument,
     AuthorDocument,
     ContactsDocument,
     GetCurrentNavigationItemDocument,
@@ -17,6 +18,8 @@ export enum PagesEnum {
     APP = 'app',
     APP_TODOS = 'app_todos',
     APP_CATEGORIES = 'app_categories',
+    APP_REGISTRATION = 'app-registration',
+    APP_LOGIN = 'app-login',
 }
 
 const PagesQuery = {
@@ -27,6 +30,8 @@ const PagesQuery = {
     [PagesEnum.APP]: HomepageDocument,
     [PagesEnum.APP_TODOS]: HomepageDocument,
     [PagesEnum.APP_CATEGORIES]: HomepageDocument,
+    [PagesEnum.APP_REGISTRATION]: AppRegistrationDocument,
+    [PagesEnum.APP_LOGIN]: AppRegistrationDocument,
 }
 
 export const resolvePath = (params: any) => {
@@ -41,6 +46,7 @@ export const pageQueryResolver = async (locale: I18NLocale, ctx: GetStaticPropsC
 
     if (path !== '/') {
         const { renderNavigation } = await graphqlRequestClient.request(GetCurrentNavigationItemDocument, { locale, path }) || {}
+        console.log(renderNavigation)
         const itemKey = renderNavigation?.[0]?.page_id
         return { pageQuery: PagesQuery[itemKey as PagesEnum], pageQueryName: itemKey}
     }

@@ -1,0 +1,21 @@
+fragment registrationForm on ComponentOrganismsRegistrationForm {
+    __typename
+    title {
+        text
+    }
+    subtitle {
+        text
+    }
+    input {
+        type
+        label
+        placeholder
+    }
+    submit {
+        label
+    }
+    alreadyRegistered {
+        url
+        label
+    }
+}

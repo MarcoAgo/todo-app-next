@@ -1,0 +1,11 @@
+query appRegistration ($locale: I18NLocaleCode) {
+    appRegistration(locale: $locale) {
+        data {
+            attributes {
+                components {
+                    ...registrationForm
+                }
+            }
+        }
+    }
+}
