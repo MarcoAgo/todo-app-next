@@ -1,16 +1,14 @@
 import Link from "next/link";
-import { FC } from "react";
+import {CSSProperties, FC} from "react";
 import { styled } from "../../../styles/styled/stitches.config";
+import {ComponentAtomButton} from "../../../graphql/generated/graphql-generated";
 
-export interface IButtonProps { 
-    label: string
-    type: string
-    url: string
+export interface IButtonProps extends ComponentAtomButton { 
     className?: string
-    style?: any
+    style?: CSSProperties
  }
 
- const StyledButton = styled('div', {
+const StyledButton = styled('div', {
     height: 32,
     width: 'auto',
     padding: '0 32px',
@@ -22,14 +20,14 @@ export interface IButtonProps {
         color: '$text',
         textDecoration: 'none'
     }
- })
+})
 
 const Button: FC<IButtonProps> = (props): JSX.Element => {
     const { label, url, style, className } = props
 
     return (
         <StyledButton className={className} style={style}>
-            <Link href={url}>{label}</Link>
+            <Link href={url || ''}>{label}</Link>
         </StyledButton>
     )
 }

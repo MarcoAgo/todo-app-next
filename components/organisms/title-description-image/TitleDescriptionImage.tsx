@@ -1,22 +1,11 @@
 import Image from "next/image";
 import { FC } from "react";
-import { ImageDataType } from "../../../types/generic";
 import { BASE_UPLOADS_URL } from "../../../utils/api/base-api-utils";
-import Button, { IButtonProps } from "../../atoms/button/Button";
-import { IDescriptionProps } from "../../atoms/description/Description";
-import { ITitleProps } from "../../atoms/title/Title";
+import Button  from "../../atoms/button/Button";
 import * as Styles from './TitleDescriptionImage.styles'
+import {ComponentOrganismsTitleDescriptionImage} from "../../../graphql/generated/graphql-generated";
 
-interface ITitleDescriptionImageProps {
-    title: ITitleProps
-    description: IDescriptionProps
-    image: {
-        media_image: ImageDataType
-    }
-    cta: IButtonProps
-}
-
-const TitleDescriptionImage: FC<ITitleDescriptionImageProps> = (props): JSX.Element => {
+const TitleDescriptionImage: FC<ComponentOrganismsTitleDescriptionImage> = (props): JSX.Element => {
     const { title, description, image, cta } = props
 
     return (
@@ -28,9 +17,10 @@ const TitleDescriptionImage: FC<ITitleDescriptionImageProps> = (props): JSX.Elem
             </Styles.TextWrapper>
             <Styles.ImageWrapper>
                 <Image 
-                    src={`${BASE_UPLOADS_URL}${image.media_image.data.attributes.url}`}
-                    height={window.innerHeight}
-                    width={image.media_image.data.attributes.width}
+                    src={`${BASE_UPLOADS_URL}${image?.media_image?.data?.attributes?.url}`}
+                    alt=""
+                    height={300}
+                    width={300}
                 />
             </Styles.ImageWrapper>
         </Styles.Container>

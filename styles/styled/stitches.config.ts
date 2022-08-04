@@ -47,7 +47,7 @@ export const globalStyles = globalCss({
         color: '#474747',
         padding: 0,
         margin: 0,
-        overflowX: 'hidden'
+        overflowX: 'hidden',
     },
     a: {
         '&: -webkit-any-link': {

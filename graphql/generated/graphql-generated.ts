@@ -8,7 +8,7 @@ export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: 
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
 
 function fetcher<TData, TVariables>(client: GraphQLClient, query: string, variables?: TVariables, headers?: RequestInit['headers']) {
-  return async (): Promise<TData> => client.request<TData, TVariables>(query, variables, headers);
+    return async (): Promise<TData> => client.request<TData, TVariables>(query, variables, headers);
 }
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
@@ -251,13 +251,11 @@ export type ComponentAtomTextInput = {
 
 export type ComponentAtomTitle = {
   __typename?: 'ComponentAtomTitle';
-  componentName: Scalars['String'];
   id: Scalars['ID'];
   text: Scalars['String'];
 };
 
 export type ComponentAtomTitleInput = {
-  componentName?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<Scalars['ID']>;
   text?: InputMaybe<Scalars['String']>;
 };
@@ -278,11 +276,10 @@ export type ComponentOrganismsHeaderNav_LinkArgs = {
 
 export type ComponentOrganismsHeroOpener = {
   __typename?: 'ComponentOrganismsHeroOpener';
-  bg_media?: Maybe<UploadFileEntityResponse>;
-  componentName: Scalars['String'];
-  description?: Maybe<ComponentAtomText>;
+  bg_media: UploadFileEntityResponse;
+  description: ComponentAtomText;
   id: Scalars['ID'];
-  title?: Maybe<ComponentAtomTitle>;
+  title: ComponentAtomTitle;
 };
 
 export type ComponentOrganismsTitleDescriptionButton = {
@@ -296,16 +293,14 @@ export type ComponentOrganismsTitleDescriptionButton = {
 
 export type ComponentOrganismsTitleDescriptionImage = {
   __typename?: 'ComponentOrganismsTitleDescriptionImage';
-  componentName: Scalars['String'];
-  cta?: Maybe<ComponentAtomButton>;
-  description?: Maybe<ComponentAtomText>;
+  cta: ComponentAtomButton;
+  description: ComponentAtomText;
   id: Scalars['ID'];
-  image?: Maybe<ComponentAtomImage>;
-  title?: Maybe<ComponentAtomTitle>;
+  image: ComponentAtomImage;
+  title: ComponentAtomTitle;
 };
 
 export type ComponentOrganismsTitleDescriptionImageInput = {
-  componentName?: InputMaybe<Scalars['String']>;
   cta?: InputMaybe<ComponentAtomButtonInput>;
   description?: InputMaybe<ComponentAtomTextInput>;
   id?: InputMaybe<Scalars['ID']>;
@@ -1675,9 +1670,11 @@ export type GetCategoriesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type GetCategoriesQuery = { __typename?: 'Query', categories?: { __typename?: 'CategoryEntityResponseCollection', data: Array<{ __typename?: 'CategoryEntity', id?: string | null, attributes?: { __typename?: 'Category', title: string, description?: string | null, todos?: { __typename?: 'TodoRelationResponseCollection', data: Array<{ __typename?: 'TodoEntity', id?: string | null, attributes?: { __typename?: 'Todo', title: string, description?: string | null } | null }> } | null } | null }> } | null };
 
-export type TitleFragment = { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string };
+export type TitleFragment = { __typename: 'ComponentAtomTitle', id: string, text: string };
 
-export type HeroOpenerFragment = { __typename?: 'ComponentOrganismsHeroOpener', id: string, componentName: string, title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, bg_media?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string } | null } | null } | null };
+export type HeroOpenerFragment = { __typename: 'ComponentOrganismsHeroOpener', id: string, title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, bg_media: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } };
+
+export type TitleDescriptionImageFragment = { __typename: 'ComponentOrganismsTitleDescriptionImage', title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, image: { __typename?: 'ComponentAtomImage', media_image: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } }, cta: { __typename?: 'ComponentAtomButton', label: string, url?: string | null } };
 
 export type AppQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -1687,55 +1684,62 @@ export type AppQuery = { __typename?: 'Query', app?: { __typename?: 'AppEntityRe
 export type AppTodoQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AppTodoQuery = { __typename?: 'Query', appTodo?: { __typename?: 'AppTodoEntityResponse', data?: { __typename?: 'AppTodoEntity', id?: string | null, attributes?: { __typename?: 'AppTodo', Intro?: { __typename?: 'ComponentOrganismsTitleDescriptionImage', title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null } | null } | null } | null } | null };
+export type AppTodoQuery = { __typename?: 'Query', appTodo?: { __typename?: 'AppTodoEntityResponse', data?: { __typename?: 'AppTodoEntity', id?: string | null, attributes?: { __typename?: 'AppTodo', Intro?: { __typename?: 'ComponentOrganismsTitleDescriptionImage', title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string } } | null } | null } | null } | null };
 
 export type AuthorQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 }>;
 
 
-export type AuthorQuery = { __typename?: 'Query', author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', attributes?: { __typename?: 'Author', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type AuthorQuery = { __typename?: 'Query', author?: { __typename?: 'AuthorEntityResponse', data?: { __typename?: 'AuthorEntity', attributes?: { __typename?: 'Author', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export type ContactsQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 }>;
 
 
-export type ContactsQuery = { __typename?: 'Query', contact?: { __typename?: 'ContactEntityResponse', data?: { __typename?: 'ContactEntity', attributes?: { __typename?: 'Contact', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type ContactsQuery = { __typename?: 'Query', contact?: { __typename?: 'ContactEntityResponse', data?: { __typename?: 'ContactEntity', attributes?: { __typename?: 'Contact', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export type HomepageQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 }>;
 
 
-export type HomepageQuery = { __typename?: 'Query', homepage?: { __typename?: 'HomepageEntityResponse', data?: { __typename?: 'HomepageEntity', attributes?: { __typename?: 'Homepage', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle' } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsHeroOpener', id: string, componentName: string, title?: { __typename?: 'ComponentAtomTitle', text: string } | null, description?: { __typename?: 'ComponentAtomText', text: string } | null, bg_media?: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string } | null } | null } | null } | { __typename?: 'ComponentOrganismsTitleDescriptionButton' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type HomepageQuery = { __typename?: 'Query', homepage?: { __typename?: 'HomepageEntityResponse', data?: { __typename?: 'HomepageEntity', attributes?: { __typename?: 'Homepage', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle' } | { __typename?: 'ComponentOrganismsHeader' } | { __typename: 'ComponentOrganismsHeroOpener', id: string, title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, bg_media: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } } | { __typename?: 'ComponentOrganismsTitleDescriptionButton' } | { __typename: 'ComponentOrganismsTitleDescriptionImage', title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, image: { __typename?: 'ComponentAtomImage', media_image: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } }, cta: { __typename?: 'ComponentAtomButton', label: string, url?: string | null } } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export type MainNavigationQueryVariables = Exact<{
+  locale?: InputMaybe<Scalars['I18NLocaleCode']>;
+}>;
+
+
+export type MainNavigationQuery = { __typename?: 'Query', renderNavigation: Array<{ __typename?: 'NavigationItem', id: number, path?: string | null, title: string, type: string, uiRouterKey: string, page_id?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null } | null> | null, parent?: { __typename?: 'NavigationItem', path?: string | null, id: number, title: string, type: string, uiRouterKey: string } | null } | null> | null } | null> };
+
+export type GetCurrentNavigationItemQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
   path?: InputMaybe<Scalars['String']>;
 }>;
 
 
-export type MainNavigationQuery = { __typename?: 'Query', renderNavigation: Array<{ __typename?: 'NavigationItem', id: number, path?: string | null, title: string, type: string, uiRouterKey: string, page_id?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null, items?: Array<{ __typename?: 'NavigationItem', id: number, title: string, path?: string | null } | null> | null, parent?: { __typename?: 'NavigationItem', path?: string | null, id: number, title: string, type: string, uiRouterKey: string } | null } | null> | null } | null> };
+export type GetCurrentNavigationItemQuery = { __typename?: 'Query', renderNavigation: Array<{ __typename?: 'NavigationItem', id: number, page_id?: string | null, path?: string | null, title: string, type: string, uiRouterKey: string } | null> };
 
 export type WhyQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
 }>;
 
 
-export type WhyQuery = { __typename?: 'Query', why?: { __typename?: 'WhyEntityResponse', data?: { __typename?: 'WhyEntity', attributes?: { __typename?: 'Why', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename?: 'ComponentAtomTitle', id: string, text: string, componentName: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'ComponentUtilsComponent' } | { __typename?: 'ComponentUtilsComponentsList' } | { __typename?: 'ComponentUtilsMetaRepeatableComponent' } | { __typename?: 'ComponentUtilsSeo' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
+export type WhyQuery = { __typename?: 'Query', why?: { __typename?: 'WhyEntityResponse', data?: { __typename?: 'WhyEntity', attributes?: { __typename?: 'Why', components?: Array<{ __typename?: 'ComponentAtomButton' } | { __typename?: 'ComponentAtomImage' } | { __typename?: 'ComponentAtomLink' } | { __typename?: 'ComponentAtomText' } | { __typename: 'ComponentAtomTitle', id: string, text: string } | { __typename?: 'ComponentOrganismsHeader' } | { __typename?: 'ComponentOrganismsTitleDescriptionImage' } | { __typename?: 'ComponentTemplateDefaultPage' } | { __typename?: 'ComponentUtilsComponent' } | { __typename?: 'ComponentUtilsComponentsList' } | { __typename?: 'ComponentUtilsMetaRepeatableComponent' } | { __typename?: 'ComponentUtilsSeo' } | { __typename?: 'Error' } | null> | null } | null } | null } | null };
 
 export const TitleFragmentDoc = `
     fragment title on ComponentAtomTitle {
   id
   text
-  componentName
+  __typename
 }
     `;
 export const HeroOpenerFragmentDoc = `
     fragment heroOpener on ComponentOrganismsHeroOpener {
   id
-  componentName
+  __typename
   title {
     text
   }
@@ -1751,8 +1755,41 @@ export const HeroOpenerFragmentDoc = `
         hash
         formats
         name
+        height
+        width
       }
     }
+  }
+}
+    `;
+export const TitleDescriptionImageFragmentDoc = `
+    fragment titleDescriptionImage on ComponentOrganismsTitleDescriptionImage {
+  __typename
+  title {
+    text
+  }
+  description {
+    text
+  }
+  image {
+    media_image {
+      data {
+        attributes {
+          url
+          previewUrl
+          provider
+          hash
+          formats
+          name
+          height
+          width
+        }
+      }
+    }
+  }
+  cta {
+    label
+    url
   }
 }
     `;
@@ -1782,16 +1819,16 @@ export const useGetCategoriesQuery = <
       TData = GetCategoriesQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: GetCategoriesQueryVariables,
-      options?: UseQueryOptions<GetCategoriesQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: GetCategoriesQueryVariables,
+        options?: UseQueryOptions<GetCategoriesQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<GetCategoriesQuery, TError, TData>(
-      variables === undefined ? ['getCategories'] : ['getCategories', variables],
-      fetcher<GetCategoriesQuery, GetCategoriesQueryVariables>(client, GetCategoriesDocument, variables, headers),
-      options
-    );
+        useQuery<GetCategoriesQuery, TError, TData>(
+            variables === undefined ? ['getCategories'] : ['getCategories', variables],
+            fetcher<GetCategoriesQuery, GetCategoriesQueryVariables>(client, GetCategoriesDocument, variables, headers),
+            options
+        );
 export const AppDocument = `
     query app {
   app {
@@ -1810,16 +1847,16 @@ export const useAppQuery = <
       TData = AppQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: AppQueryVariables,
-      options?: UseQueryOptions<AppQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: AppQueryVariables,
+        options?: UseQueryOptions<AppQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<AppQuery, TError, TData>(
-      variables === undefined ? ['app'] : ['app', variables],
-      fetcher<AppQuery, AppQueryVariables>(client, AppDocument, variables, headers),
-      options
-    );
+        useQuery<AppQuery, TError, TData>(
+            variables === undefined ? ['app'] : ['app', variables],
+            fetcher<AppQuery, AppQueryVariables>(client, AppDocument, variables, headers),
+            options
+        );
 export const AppTodoDocument = `
     query appTodo {
   appTodo {
@@ -1843,16 +1880,16 @@ export const useAppTodoQuery = <
       TData = AppTodoQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: AppTodoQueryVariables,
-      options?: UseQueryOptions<AppTodoQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: AppTodoQueryVariables,
+        options?: UseQueryOptions<AppTodoQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<AppTodoQuery, TError, TData>(
-      variables === undefined ? ['appTodo'] : ['appTodo', variables],
-      fetcher<AppTodoQuery, AppTodoQueryVariables>(client, AppTodoDocument, variables, headers),
-      options
-    );
+        useQuery<AppTodoQuery, TError, TData>(
+            variables === undefined ? ['appTodo'] : ['appTodo', variables],
+            fetcher<AppTodoQuery, AppTodoQueryVariables>(client, AppTodoDocument, variables, headers),
+            options
+        );
 export const AuthorDocument = `
     query author($locale: I18NLocaleCode) {
   author(locale: $locale) {
@@ -1870,16 +1907,16 @@ export const useAuthorQuery = <
       TData = AuthorQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: AuthorQueryVariables,
-      options?: UseQueryOptions<AuthorQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: AuthorQueryVariables,
+        options?: UseQueryOptions<AuthorQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<AuthorQuery, TError, TData>(
-      variables === undefined ? ['author'] : ['author', variables],
-      fetcher<AuthorQuery, AuthorQueryVariables>(client, AuthorDocument, variables, headers),
-      options
-    );
+        useQuery<AuthorQuery, TError, TData>(
+            variables === undefined ? ['author'] : ['author', variables],
+            fetcher<AuthorQuery, AuthorQueryVariables>(client, AuthorDocument, variables, headers),
+            options
+        );
 export const ContactsDocument = `
     query contacts($locale: I18NLocaleCode) {
   contact(locale: $locale) {
@@ -1897,16 +1934,16 @@ export const useContactsQuery = <
       TData = ContactsQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: ContactsQueryVariables,
-      options?: UseQueryOptions<ContactsQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: ContactsQueryVariables,
+        options?: UseQueryOptions<ContactsQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<ContactsQuery, TError, TData>(
-      variables === undefined ? ['contacts'] : ['contacts', variables],
-      fetcher<ContactsQuery, ContactsQueryVariables>(client, ContactsDocument, variables, headers),
-      options
-    );
+        useQuery<ContactsQuery, TError, TData>(
+            variables === undefined ? ['contacts'] : ['contacts', variables],
+            fetcher<ContactsQuery, ContactsQueryVariables>(client, ContactsDocument, variables, headers),
+            options
+        );
 export const HomepageDocument = `
     query homepage($locale: I18NLocaleCode) {
   homepage(locale: $locale) {
@@ -1914,33 +1951,34 @@ export const HomepageDocument = `
       attributes {
         components {
           ...heroOpener
+          ...titleDescriptionImage
         }
       }
     }
   }
 }
-    ${HeroOpenerFragmentDoc}`;
+    ${HeroOpenerFragmentDoc}
+${TitleDescriptionImageFragmentDoc}`;
 export const useHomepageQuery = <
       TData = HomepageQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: HomepageQueryVariables,
-      options?: UseQueryOptions<HomepageQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: HomepageQueryVariables,
+        options?: UseQueryOptions<HomepageQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<HomepageQuery, TError, TData>(
-      variables === undefined ? ['homepage'] : ['homepage', variables],
-      fetcher<HomepageQuery, HomepageQueryVariables>(client, HomepageDocument, variables, headers),
-      options
-    );
+        useQuery<HomepageQuery, TError, TData>(
+            variables === undefined ? ['homepage'] : ['homepage', variables],
+            fetcher<HomepageQuery, HomepageQueryVariables>(client, HomepageDocument, variables, headers),
+            options
+        );
 export const MainNavigationDocument = `
-    query mainNavigation($locale: I18NLocaleCode, $path: String) {
+    query mainNavigation($locale: I18NLocaleCode) {
   renderNavigation(
     navigationIdOrSlug: "main-navigation"
     type: TREE
     locale: $locale
-    path: $path
   ) {
     id
     path
@@ -1972,16 +2010,47 @@ export const useMainNavigationQuery = <
       TData = MainNavigationQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: MainNavigationQueryVariables,
-      options?: UseQueryOptions<MainNavigationQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: MainNavigationQueryVariables,
+        options?: UseQueryOptions<MainNavigationQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<MainNavigationQuery, TError, TData>(
-      variables === undefined ? ['mainNavigation'] : ['mainNavigation', variables],
-      fetcher<MainNavigationQuery, MainNavigationQueryVariables>(client, MainNavigationDocument, variables, headers),
-      options
-    );
+        useQuery<MainNavigationQuery, TError, TData>(
+            variables === undefined ? ['mainNavigation'] : ['mainNavigation', variables],
+            fetcher<MainNavigationQuery, MainNavigationQueryVariables>(client, MainNavigationDocument, variables, headers),
+            options
+        );
+export const GetCurrentNavigationItemDocument = `
+    query getCurrentNavigationItem($locale: I18NLocaleCode, $path: String) {
+  renderNavigation(
+    navigationIdOrSlug: "main-navigation"
+    type: TREE
+    locale: $locale
+    path: $path
+  ) {
+    id
+    page_id
+    path
+    title
+    type
+    uiRouterKey
+  }
+}
+    `;
+export const useGetCurrentNavigationItemQuery = <
+      TData = GetCurrentNavigationItemQuery,
+      TError = unknown
+    >(
+        client: GraphQLClient,
+        variables?: GetCurrentNavigationItemQueryVariables,
+        options?: UseQueryOptions<GetCurrentNavigationItemQuery, TError, TData>,
+        headers?: RequestInit['headers']
+    ) =>
+        useQuery<GetCurrentNavigationItemQuery, TError, TData>(
+            variables === undefined ? ['getCurrentNavigationItem'] : ['getCurrentNavigationItem', variables],
+            fetcher<GetCurrentNavigationItemQuery, GetCurrentNavigationItemQueryVariables>(client, GetCurrentNavigationItemDocument, variables, headers),
+            options
+        );
 export const WhyDocument = `
     query why($locale: I18NLocaleCode) {
   why(locale: $locale) {
@@ -1999,13 +2068,13 @@ export const useWhyQuery = <
       TData = WhyQuery,
       TError = unknown
     >(
-      client: GraphQLClient,
-      variables?: WhyQueryVariables,
-      options?: UseQueryOptions<WhyQuery, TError, TData>,
-      headers?: RequestInit['headers']
+        client: GraphQLClient,
+        variables?: WhyQueryVariables,
+        options?: UseQueryOptions<WhyQuery, TError, TData>,
+        headers?: RequestInit['headers']
     ) =>
-    useQuery<WhyQuery, TError, TData>(
-      variables === undefined ? ['why'] : ['why', variables],
-      fetcher<WhyQuery, WhyQueryVariables>(client, WhyDocument, variables, headers),
-      options
-    );
+        useQuery<WhyQuery, TError, TData>(
+            variables === undefined ? ['why'] : ['why', variables],
+            fetcher<WhyQuery, WhyQueryVariables>(client, WhyDocument, variables, headers),
+            options
+        );

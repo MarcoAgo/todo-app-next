@@ -1,6 +1,6 @@
 fragment heroOpener on ComponentOrganismsHeroOpener {
   id
-  componentName
+  __typename
   title {
     text
   }
@@ -16,6 +16,8 @@ fragment heroOpener on ComponentOrganismsHeroOpener {
         hash
         formats
         name
+        height
+        width
       }
     }
   }

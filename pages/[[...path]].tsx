@@ -3,14 +3,18 @@ import { GetStaticPaths, GetStaticPropsContext } from "next";
 import type { NextPage } from 'next'
 import { fetchNavigation } from "../utils/pages/fetch-navigation";
 import { pageQueryResolver } from "../utils/pages/page-data-resolver";
-import { I18NLocale } from "../graphql/generated/graphql-generated";
+import {I18NLocale, NavigationItem} from "../graphql/generated/graphql-generated";
 import { graphqlRequestClient } from "../graphql/utils/graphql-client";
 import Controller from "../components/controller/Controller";
 import Header from "../components/organisms/header/Header";
+import NotFoundPage from "../components/error/404";
 
 interface ICatchAllPageProps {
     dehydratedState: DehydratedState
     error?: Partial<Error>
+    navigation?: {
+        renderNavigation: NavigationItem[]
+    },
     pageQuery: string
     pageQueryName: string
 }
@@ -23,7 +27,10 @@ const SwitchController: NextPage<ICatchAllPageProps> = (props) => {
             {/* ricordarsi di mettere la next head basata sui dati di pagina (og: tags e seo data) */}
             <Header />
             <div className="container">
-                <Controller pageQuery={pageQuery} pageQueryName={pageQueryName} />
+                {pageQuery && pageQueryName
+                    ? <Controller pageQuery={pageQuery} pageQueryName={pageQueryName} />
+                    : <NotFoundPage />
+                }
             </div>
         </div>
     )
@@ -39,10 +46,14 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
         const navigation = await fetchNavigation(locale)
         const { pageQuery, pageQueryName } = await pageQueryResolver(locale as I18NLocale, ctx)
-        const page = await graphqlRequestClient.request(pageQuery)
+
+        if (pageQuery && pageQueryName) {
+            console.log('here')
+            const page = await graphqlRequestClient.request(pageQuery, { locale })
+            queryClient.setQueryData([pageQueryName], page)
+        }
 
         queryClient.setQueryData(['mainNavigation', { locale }], navigation)
-        queryClient.setQueryData([pageQueryName], page)
 
         const end = performance.now()
 
@@ -50,15 +61,15 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
         return { 
             props: {
-                dehydratedState: dehydrate(queryClient),
-                pageQuery,
-                pageQueryName,
+                dehydratedState: dehydrate(queryClient) || {},
+                pageQuery: pageQuery || null,
+                pageQueryName: pageQueryName || null,
             }
         }
-      } catch (e: any) {
+    } catch (e: unknown) {
         console.log('error', e)
-        return { props: { error: { ...e } } }
-      }
+        return { props: { error: e } }
+    }
 }
 
 export const getStaticPaths: GetStaticPaths = async () => ({

@@ -1,11 +1,10 @@
-import { FC } from "react";
+import {CSSProperties, FC} from "react";
 import { styled } from "../../../styles/styled/stitches.config";
+import {ComponentAtomText} from "../../../graphql/generated/graphql-generated";
 
-export interface IDescriptionProps {
-    id: number
-    text: string
+export interface IDescriptionProps extends ComponentAtomText {
     className?: string
-    style?: any
+    style?: CSSProperties
 }
 
 const StyledDescription = styled('div', {

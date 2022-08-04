@@ -1,5 +1,12 @@
 import { GetStaticPropsContext } from "next"
-import { AuthorDocument, ContactsDocument, HomepageDocument, I18NLocale, MainNavigationDocument, NavigationItem, WhyDocument } from "../../graphql/generated/graphql-generated"
+import {
+    AuthorDocument,
+    ContactsDocument,
+    GetCurrentNavigationItemDocument,
+    HomepageDocument,
+    I18NLocale,
+    WhyDocument
+} from "../../graphql/generated/graphql-generated"
 import { graphqlRequestClient } from "../../graphql/utils/graphql-client"
 
 export enum PagesEnum {
@@ -33,8 +40,8 @@ export const pageQueryResolver = async (locale: I18NLocale, ctx: GetStaticPropsC
     const path = resolvePath(params)
 
     if (path !== '/') {
-        const { renderNavigation } = await graphqlRequestClient.request(MainNavigationDocument, { locale, path }) || {}
-        const itemKey = renderNavigation[0].page_id
+        const { renderNavigation } = await graphqlRequestClient.request(GetCurrentNavigationItemDocument, { locale, path }) || {}
+        const itemKey = renderNavigation?.[0]?.page_id
         return { pageQuery: PagesQuery[itemKey as PagesEnum], pageQueryName: itemKey}
     }
 

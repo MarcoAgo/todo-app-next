@@ -4,6 +4,7 @@ query homepage($locale: I18NLocaleCode) {
       attributes {
         components {
           ...heroOpener
+          ...titleDescriptionImage
         }
       }
     }

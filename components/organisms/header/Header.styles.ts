@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { styled } from "../../../styles/styled/stitches.config";
 
 export const Container = styled('div', {
@@ -20,9 +19,17 @@ export const Logo = styled('div', {
     cursor: 'pointer',
 })
 
-export const Links = styled('div', {
+export const LinksLangSection = styled('div', {
     display: 'flex',
     padding: '0 32px',
+})
+
+export const Lang = styled('div', {
+    width: '48px'
+})
+
+export const Links = styled('div', {
+    display: 'flex',
 
     '& a': {
         paddingRight: '32px'

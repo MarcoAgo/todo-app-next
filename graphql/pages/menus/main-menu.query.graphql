@@ -1,5 +1,5 @@
-query mainNavigation($locale: I18NLocaleCode, $path: String) {
-  renderNavigation(navigationIdOrSlug: "main-navigation", type: TREE, locale: $locale, path: $path) {
+query mainNavigation($locale: I18NLocaleCode) {
+  renderNavigation(navigationIdOrSlug: "main-navigation", type: TREE, locale: $locale) {
     id
     path
     title
@@ -23,5 +23,16 @@ query mainNavigation($locale: I18NLocaleCode, $path: String) {
         uiRouterKey
       }
     }
+  }
+}
+
+query getCurrentNavigationItem($locale: I18NLocaleCode, $path: String) {
+  renderNavigation(navigationIdOrSlug: "main-navigation", type: TREE, locale: $locale, path: $path) {
+    id
+    page_id
+    path
+    title
+    type
+    uiRouterKey
   }
 }

@@ -240,13 +240,11 @@ type ComponentAtomText {
 input ComponentAtomTitleInput {
   id: ID
   text: String
-  componentName: String
 }
 
 type ComponentAtomTitle {
   id: ID!
   text: String!
-  componentName: String!
 }
 
 type ComponentOrganismsHeader {
@@ -261,10 +259,9 @@ type ComponentOrganismsHeader {
 
 type ComponentOrganismsHeroOpener {
   id: ID!
-  title: ComponentAtomTitle
-  description: ComponentAtomText
-  bg_media: UploadFileEntityResponse
-  componentName: String!
+  title: ComponentAtomTitle!
+  description: ComponentAtomText!
+  bg_media: UploadFileEntityResponse!
 }
 
 type ComponentOrganismsTitleDescriptionButton {
@@ -281,16 +278,14 @@ input ComponentOrganismsTitleDescriptionImageInput {
   description: ComponentAtomTextInput
   image: ComponentAtomImageInput
   cta: ComponentAtomButtonInput
-  componentName: String
 }
 
 type ComponentOrganismsTitleDescriptionImage {
   id: ID!
-  title: ComponentAtomTitle
-  description: ComponentAtomText
-  image: ComponentAtomImage
-  cta: ComponentAtomButton
-  componentName: String!
+  title: ComponentAtomTitle!
+  description: ComponentAtomText!
+  image: ComponentAtomImage!
+  cta: ComponentAtomButton!
 }
 
 type ComponentTemplateDefaultPage {
@@ -722,7 +717,7 @@ type AppTodoEntityResponse {
 }
 
 union AuthorComponentsDynamicZone =
-    ComponentAtomButton
+  ComponentAtomButton
   | ComponentAtomImage
   | ComponentAtomLink
   | ComponentAtomText
@@ -816,7 +811,7 @@ type CategoryRelationResponseCollection {
 }
 
 union ContactComponentsDynamicZone =
-    ComponentAtomButton
+  ComponentAtomButton
   | ComponentAtomImage
   | ComponentAtomLink
   | ComponentAtomText
@@ -858,7 +853,7 @@ type ContactRelationResponseCollection {
 }
 
 union HomepageComponentsDynamicZone =
-    ComponentAtomTitle
+  ComponentAtomTitle
   | ComponentOrganismsHeader
   | ComponentAtomButton
   | ComponentAtomImage
@@ -959,7 +954,7 @@ type TodoRelationResponseCollection {
 }
 
 union WhyComponentsDynamicZone =
-    ComponentAtomButton
+  ComponentAtomButton
   | ComponentAtomImage
   | ComponentAtomLink
   | ComponentAtomText
@@ -1005,7 +1000,7 @@ type WhyRelationResponseCollection {
 }
 
 union GenericMorph =
-    ComponentAtomButton
+  ComponentAtomButton
   | ComponentAtomImage
   | ComponentAtomLink
   | ComponentAtomText

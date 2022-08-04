@@ -1,0 +1,29 @@
+fragment titleDescriptionImage on ComponentOrganismsTitleDescriptionImage {
+    __typename
+    title {
+        text
+    }
+    description {
+        text
+    }
+    image {
+        media_image {
+            data {
+                attributes {
+                    url
+                    previewUrl
+                    provider
+                    hash
+                    formats
+                    name
+                    height
+                    width
+                }
+            }
+        }
+    }
+    cta {
+        label
+        url
+    }
+}

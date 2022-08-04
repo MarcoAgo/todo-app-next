@@ -4,15 +4,16 @@ import Title from "../../atoms/title/Title";
 
 
 export const Container = styled('div', {
-    marginTop: '88px',
-    marginBottom: '88px',
+    height: '100vh',
     width: '100vw',
     display: 'flex',
 })
 
 export const ImageWrapper = styled('div', {
-    width: '40vw',
+    width: '30vw',
     height: '100%',
+    display: 'flex',
+    alignItems: 'center',
 })
 
 export const TitleOverride = styled(Title, {
@@ -24,11 +25,11 @@ export const DescriptionOvveride = styled(Description, {
 })
 
 export const TextWrapper = styled('div', {
-    width: '60vw',
+    width: '70vw',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
     textAlign: 'left',
-    padding: '0 88px'
+    padding: '0 10vw',
 })
