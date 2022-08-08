@@ -3,12 +3,13 @@ import {CSSProperties, FC} from "react";
 import { styled } from "../../../styles/styled/stitches.config";
 import {ComponentAtomButton} from "../../../graphql/generated/graphql-generated";
 
-export interface IButtonProps extends ComponentAtomButton { 
+export interface IButtonProps extends ComponentAtomButton {
     className?: string
     style?: CSSProperties
+    type?: 'submit'
  }
 
-const StyledButton = styled('div', {
+const StyledButtonLink = styled('div', {
     height: 32,
     width: 'auto',
     padding: '0 32px',
@@ -22,14 +23,40 @@ const StyledButton = styled('div', {
     }
 })
 
-const Button: FC<IButtonProps> = (props): JSX.Element => {
-    const { label, url, style, className } = props
+const StyledButton = styled('button', {
+    cursor: 'pointer',
+    height: 32,
+    width: '100%',
+    padding: '0 32px',
+    border: '2px solid $text',
+    display: 'flex',
+    alignItems: 'center',
+    color: '$text',
+    outline: 'none',
+    background: 'transparent',
+    textAlign: 'center',
+    justifyContent: 'center',
 
-    return (
-        <StyledButton className={className} style={style}>
-            <Link href={url || ''}>{label}</Link>
-        </StyledButton>
-    )
+    '&:hover': {
+        color: '#fff',
+        backgroundColor: '$text'
+    }
+})
+
+const Button: FC<IButtonProps> = (props): JSX.Element => {
+    const { label, url, style, type, className } = props
+
+    return url
+        ? (
+            <StyledButtonLink className={className} style={style}>
+                <Link href={url || ''}>{label}</Link>
+            </StyledButtonLink>
+        )
+        : (
+            <StyledButton type={type} className={className} style={style}>
+                {label}
+            </StyledButton>
+        )
 }
 
 export default Button

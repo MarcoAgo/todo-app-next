@@ -224,6 +224,8 @@ input ComponentAtomInputFiltersInput {
   type: StringFilterInput
   label: StringFilterInput
   placeholder: StringFilterInput
+  name: StringFilterInput
+  required: BooleanFilterInput
   and: [ComponentAtomInputFiltersInput]
   or: [ComponentAtomInputFiltersInput]
   not: ComponentAtomInputFiltersInput
@@ -234,6 +236,8 @@ type ComponentAtomInput {
   type: String
   label: String!
   placeholder: String!
+  name: String!
+  required: Boolean!
 }
 
 input ComponentAtomLinkFiltersInput {

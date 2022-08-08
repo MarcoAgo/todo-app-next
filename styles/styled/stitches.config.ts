@@ -4,6 +4,7 @@ export const { styled, getCssText, globalCss, css } = createStitches({
     theme: {
         colors: {
             background: '#fff',
+            lightBg: '#E1E1E1',
             text: '#474747',
         },
         space: {},

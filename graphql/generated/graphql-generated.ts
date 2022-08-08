@@ -282,16 +282,20 @@ export type ComponentAtomInput = {
   __typename?: 'ComponentAtomInput';
   id: Scalars['ID'];
   label: Scalars['String'];
+  name: Scalars['String'];
   placeholder: Scalars['String'];
+  required: Scalars['Boolean'];
   type?: Maybe<Scalars['String']>;
 };
 
 export type ComponentAtomInputFiltersInput = {
   and?: InputMaybe<Array<InputMaybe<ComponentAtomInputFiltersInput>>>;
   label?: InputMaybe<StringFilterInput>;
+  name?: InputMaybe<StringFilterInput>;
   not?: InputMaybe<ComponentAtomInputFiltersInput>;
   or?: InputMaybe<Array<InputMaybe<ComponentAtomInputFiltersInput>>>;
   placeholder?: InputMaybe<StringFilterInput>;
+  required?: InputMaybe<BooleanFilterInput>;
   type?: InputMaybe<StringFilterInput>;
 };
 
@@ -1815,7 +1819,7 @@ export type TitleFragment = { __typename: 'ComponentAtomTitle', id: string, text
 
 export type HeroOpenerFragment = { __typename: 'ComponentOrganismsHeroOpener', id: string, title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, bg_media: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } };
 
-export type RegistrationFormFragment = { __typename: 'ComponentOrganismsRegistrationForm', title: { __typename?: 'ComponentAtomTitle', text: string }, subtitle?: { __typename?: 'ComponentAtomText', text: string } | null, input: Array<{ __typename?: 'ComponentAtomInput', type?: string | null, label: string, placeholder: string } | null>, submit?: { __typename?: 'ComponentAtomButton', label: string } | null, alreadyRegistered?: { __typename?: 'ComponentAtomLink', url: string, label: string } | null };
+export type RegistrationFormFragment = { __typename: 'ComponentOrganismsRegistrationForm', title: { __typename?: 'ComponentAtomTitle', text: string }, subtitle?: { __typename?: 'ComponentAtomText', text: string } | null, input: Array<{ __typename?: 'ComponentAtomInput', type?: string | null, label: string, placeholder: string, name: string, required: boolean } | null>, submit?: { __typename?: 'ComponentAtomButton', label: string } | null, alreadyRegistered?: { __typename?: 'ComponentAtomLink', url: string, label: string } | null };
 
 export type TitleDescriptionImageFragment = { __typename: 'ComponentOrganismsTitleDescriptionImage', title: { __typename?: 'ComponentAtomTitle', text: string }, description: { __typename?: 'ComponentAtomText', text: string }, image: { __typename?: 'ComponentAtomImage', media_image: { __typename?: 'UploadFileEntityResponse', data?: { __typename?: 'UploadFileEntity', attributes?: { __typename?: 'UploadFile', url: string, previewUrl?: string | null, provider: string, hash: string, formats?: any | null, name: string, height?: number | null, width?: number | null } | null } | null } }, cta: { __typename?: 'ComponentAtomButton', label: string, url?: string | null } };
 
@@ -1824,7 +1828,7 @@ export type AppRegistrationQueryVariables = Exact<{
 }>;
 
 
-export type AppRegistrationQuery = { __typename?: 'Query', appRegistration?: { __typename?: 'AppRegistrationEntityResponse', data?: { __typename?: 'AppRegistrationEntity', attributes?: { __typename?: 'AppRegistration', components: Array<{ __typename: 'ComponentOrganismsRegistrationForm', title: { __typename?: 'ComponentAtomTitle', text: string }, subtitle?: { __typename?: 'ComponentAtomText', text: string } | null, input: Array<{ __typename?: 'ComponentAtomInput', type?: string | null, label: string, placeholder: string } | null>, submit?: { __typename?: 'ComponentAtomButton', label: string } | null, alreadyRegistered?: { __typename?: 'ComponentAtomLink', url: string, label: string } | null } | { __typename?: 'Error' } | null> } | null } | null } | null };
+export type AppRegistrationQuery = { __typename?: 'Query', appRegistration?: { __typename?: 'AppRegistrationEntityResponse', data?: { __typename?: 'AppRegistrationEntity', attributes?: { __typename?: 'AppRegistration', components: Array<{ __typename: 'ComponentOrganismsRegistrationForm', title: { __typename?: 'ComponentAtomTitle', text: string }, subtitle?: { __typename?: 'ComponentAtomText', text: string } | null, input: Array<{ __typename?: 'ComponentAtomInput', type?: string | null, label: string, placeholder: string, name: string, required: boolean } | null>, submit?: { __typename?: 'ComponentAtomButton', label: string } | null, alreadyRegistered?: { __typename?: 'ComponentAtomLink', url: string, label: string } | null } | { __typename?: 'Error' } | null> } | null } | null } | null };
 
 export type AuthorQueryVariables = Exact<{
   locale?: InputMaybe<Scalars['I18NLocaleCode']>;
@@ -1915,6 +1919,8 @@ export const RegistrationFormFragmentDoc = `
     type
     label
     placeholder
+    name
+    required
   }
   submit {
     label

@@ -18,8 +18,8 @@ export enum PagesEnum {
     APP = 'app',
     APP_TODOS = 'app_todos',
     APP_CATEGORIES = 'app_categories',
-    APP_REGISTRATION = 'app-registration',
-    APP_LOGIN = 'app-login',
+    APP_REGISTRATION = 'appRegistration',
+    APP_LOGIN = 'appLogin',
 }
 
 const PagesQuery = {
@@ -35,18 +35,17 @@ const PagesQuery = {
 }
 
 export const resolvePath = (params: any) => {
-    return params.path ? `/${params.path.join('/')}` : '/'
+    return params?.path ? `/${params.path.join('/')}` : '/'
 } 
 
 // TODO: Manage nested items path match
 export const pageQueryResolver = async (locale: I18NLocale, ctx: GetStaticPropsContext) => {
-    const { params } = ctx
+    const { params } = ctx || {}
     
     const path = resolvePath(params)
 
     if (path !== '/') {
         const { renderNavigation } = await graphqlRequestClient.request(GetCurrentNavigationItemDocument, { locale, path }) || {}
-        console.log(renderNavigation)
         const itemKey = renderNavigation?.[0]?.page_id
         return { pageQuery: PagesQuery[itemKey as PagesEnum], pageQueryName: itemKey}
     }

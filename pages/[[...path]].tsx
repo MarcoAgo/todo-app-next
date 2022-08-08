@@ -45,12 +45,11 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
         const start = performance.now()
 
         const navigation = await fetchNavigation(locale)
-        const { pageQuery, pageQueryName } = await pageQueryResolver(locale as I18NLocale, ctx)
+        const { pageQuery, pageQueryName } = await pageQueryResolver(locale as I18NLocale, ctx) || {}
 
         if (pageQuery && pageQueryName) {
-            console.log('here')
             const page = await graphqlRequestClient.request(pageQuery, { locale })
-            queryClient.setQueryData([pageQueryName], page)
+            queryClient.setQueryData([pageQueryName, { locale }], page)
         }
 
         queryClient.setQueryData(['mainNavigation', { locale }], navigation)
@@ -59,12 +58,13 @@ export const getStaticProps = async (ctx: GetStaticPropsContext) => {
 
         console.log(`page request took ${end - start} ms`)
 
-        return { 
+        return {
             props: {
                 dehydratedState: dehydrate(queryClient) || {},
                 pageQuery: pageQuery || null,
                 pageQueryName: pageQueryName || null,
-            }
+            },
+            revalidate: 10000
         }
     } catch (e: unknown) {
         console.log('error', e)

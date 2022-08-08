@@ -4,6 +4,7 @@ import { FC, useEffect, useState } from "react"
 import { graphqlRequestClient } from "../../graphql/utils/graphql-client"
 import {useRouter} from "next/router";
 import {Variables} from "graphql-request";
+import AppRegistrationForm from "../organisms/app/registration-form/AppRegistrationForm";
 
 // imports
 const HeroOpener = dynamic(import('../organisms/hero-opener/HeroOpener'), { ssr: true })
@@ -21,6 +22,8 @@ const renderComponent = (component: any) => {
         return <HeroOpener { ...component } />
     case 'ComponentOrganismsTitleDescriptionImage':
         return <TitleDescriptionImage {...component} />
+    case 'ComponentOrganismsRegistrationForm':
+        return <AppRegistrationForm {...component} />
 
     default:
         return null
@@ -30,10 +33,11 @@ const renderComponent = (component: any) => {
 const Controller: FC<{ pageQuery: string, pageQueryName: string }> = (props): JSX.Element => {
     const { locale } = useRouter()
     const [componentsList, setComponentsList] = useState<unknown[]>([]);
-    const { data: page } = useQuery([props.pageQueryName], () => graphqlRequestClient.request(props.pageQuery), { locale } as Variables)
+    const { data: page } = useQuery([props.pageQueryName, { locale }], () => graphqlRequestClient.request(props.pageQuery, { locale }))
     
     useEffect(() => {
-        if (page[props.pageQueryName]?.data?.attributes) {
+        console.log(page)
+        if (page?.[props.pageQueryName]?.data?.attributes) {
             setComponentsList(page[props.pageQueryName]?.data?.attributes.components)
         }
     }, [page, setComponentsList, props.pageQueryName])

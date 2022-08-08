@@ -10,6 +10,8 @@ fragment registrationForm on ComponentOrganismsRegistrationForm {
         type
         label
         placeholder
+        name
+        required
     }
     submit {
         label

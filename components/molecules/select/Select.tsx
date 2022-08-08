@@ -18,7 +18,7 @@ const Select: FC<ISelectProps> = (props): JSX.Element => {
     const { items, onSelectItem, defaultValue } = props
 
     const renderItem = (item: ISelectItem) => (
-        <SelectItem value={item.value}>
+        <SelectItem value={item.value} key={item.value}>
             <SelectPrimitive.SelectItemText>{item.label}</SelectPrimitive.SelectItemText>
             <SelectPrimitive.ItemIndicator>
                 <CheckIcon />
@@ -35,11 +35,13 @@ const Select: FC<ISelectProps> = (props): JSX.Element => {
                 </SelectPrimitive.SelectIcon>
             </SelectTrigger>
             <SelectContent>
-                <SelectPrimitive.ScrollUpButton>
-                    <ChevronUpIcon />
-                </SelectPrimitive.ScrollUpButton>
                 <SelectPrimitive.Viewport>
-                    {items.map(renderItem)}
+                    <SelectPrimitive.ScrollUpButton>
+                        <ChevronUpIcon />
+                    </SelectPrimitive.ScrollUpButton>
+                    <SelectPrimitive.Viewport>
+                        {items.map(renderItem)}
+                    </SelectPrimitive.Viewport>
                 </SelectPrimitive.Viewport>
             </SelectContent>
         </SelectPrimitive.Select>
